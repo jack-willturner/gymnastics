@@ -1,0 +1,1 @@
+from .generate_genotypes import generate_resnet_genotypes

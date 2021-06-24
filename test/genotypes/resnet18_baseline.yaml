@@ -1,0 +1,124 @@
+stage1:
+  block1:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+  block2:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+stage2:
+  block1:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 2
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+  block2:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+stage3:
+  block1:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 2
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+  block2:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+stage4:
+  block1:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 2
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+  block2:
+    layer1:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
+    layer2:
+      conv_type: Conv
+      layer_args:
+        stride: 1
+        kernel_size: 3
+        padding: 1
+        bias: False
