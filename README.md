@@ -1,4 +1,4 @@
-![gymNAStics](figures/capybara.png)
+![gymNAStics](figures/capybara.svg)
 
 <p align="center">
   <!-- license -->
