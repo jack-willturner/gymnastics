@@ -1,7 +1,28 @@
-# gymNAStics
-A "gym" style toolkit for building lightweight NAS systems. I know, the name is awful. 
+![gymNAStics](figures/capybara.png)
 
-## Supported operations
+<p align="center">
+  <!-- license -->
+  <a href="https://tldrlegal.com/license/apache-license-2.0-%28apache-2.0%29">
+      <img src="https://img.shields.io/github/license/jack-willturner/gymNAStics" alt="License" height="20">
+  </a>
+  <!-- CI status -->
+  <a href="">
+    <img src="https://img.shields.io/github/workflow/status/jack-willturner/gymNAStics/CI" alt="CI status" height="20">
+  </a>
+  <!-- Code analysis -->
+  <img src="https://img.shields.io/lgtm/grade/python/github/jack-willturner/gymNAStics" alt="Code analysis" height="20">
+  <!-- Getting started colab -->
+  <a href="">
+      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" height="20">
+  </a>
+</p>
+
+<p align="center">
+  <i>A "gym" style toolkit for building lightweight NAS systems. I know, the name is awful. </i>
+</p>
+
+
+## Supported operations
 
 | Done | Tested | Op                  | Paper                                         | Notes                                                               |
 | ---- | ------ | ------------------- | --------------------------------------------- | ------------------------------------------------------------------- |

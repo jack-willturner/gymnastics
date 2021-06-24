@@ -1,8 +1,9 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from .layers import get_conv_bn_relu
+
+__all__ = ["ResNet", "ResNet18", "ResNet26", "ResNet34", "ResNet50"]
 
 
 class BasicBlock(nn.Module):

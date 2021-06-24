@@ -6,7 +6,7 @@ from models.layers import layer_type_registry
 
 class BasicBlockGenerator:
     def generate_block_config(
-        conv_type: Union[List[str], str] = "Conv", stride: int = 1
+        self, conv_type: Union[List[str], str] = "Conv", stride: int = 1
     ) -> Dict:
         if not isinstance(conv_type, list):
             conv_type = [conv_type] * 2
@@ -38,7 +38,7 @@ class BasicBlockGenerator:
 
 class BottleneckGenerator:
     def generate_block_config(
-        conv_type: Union[List[str], str], stride: int = 1
+        self, conv_type: Union[List[str], str], stride: int = 1
     ) -> Dict:
 
         if not isinstance(conv_type, list):
