@@ -78,6 +78,10 @@ for i in range(10):
 best_model.show_picture()
 ```
 
+Which prints:
+
+![](figures/best_model.png)
+
 ## Supported operations
 
 | Done | Tested | Op                  | Paper                                         | Notes                                                               |
