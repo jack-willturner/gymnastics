@@ -37,7 +37,7 @@ The framework revolves around three key classes:
 3. `SearchSpace`: 
 
 
-### Obligatory builder pattern README example
+### Obligatory builder pattern README example
 
 The goal of the library will be to be able to do stuff like:
 
