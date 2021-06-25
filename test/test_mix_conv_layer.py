@@ -31,6 +31,7 @@ def generate_bottleneck_config():
                 "conv_type": "MixConv",
                 "layer_args": {
                     "stride": stride if b == 0 else 1,
+                    "kernel_size": None,
                     "kernel_sizes": [3, 5],
                     "padding": 1,
                     "bias": False,

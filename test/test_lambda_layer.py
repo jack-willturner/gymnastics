@@ -77,7 +77,7 @@ def test_lambda_layer_with_bottleneck():
                     "layer_args": {
                         "stride": 1,
                         "kernel_size": 1,
-                        "padding": 1,
+                        "padding": 0,
                         "bias": False,
                     },
                 }

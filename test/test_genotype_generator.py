@@ -3,10 +3,6 @@ import yaml
 
 def test_resnet18_genotype_generator():
 
-    import os
-
-    absolute_path = os.path.abspath(__file__)
-
     with open("test/genotypes/resnet18_baseline.yaml", "r") as config_file:
         ground_truth_config = yaml.safe_load(config_file)
 
@@ -16,6 +12,23 @@ def test_resnet18_genotype_generator():
     generated_config = generated_configs["resnet18"]
 
     assert ground_truth_config == generated_config
+
+
+def test_resnet26_genotype_generator():
+
+    from genotypes import generate_resnet_genotypes
+
+    generated_configs = generate_resnet_genotypes()
+    generated_config = generated_configs["resnet26"]
+
+    import torch
+    from models import ResNet26
+
+    model = ResNet26(generated_config)
+
+    data = torch.rand(5, 3, 32, 32)
+
+    _ = model(data)
 
 
 def test_random_resnet_generator():

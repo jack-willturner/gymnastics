@@ -12,12 +12,12 @@ from typing import Dict
 
 
 def test_proxy_naswot():
-    # generate a random network
-    genotype: Dict = generate_baseline_genotype_with_random_middle_convs(
-        BottleneckGenerator(), n_blocks=[2, 2, 2, 2], strides=[1, 2, 2, 2]
-    )
+    from genotypes import generate_resnet_genotypes
 
-    model: nn.Module = ResNet26(genotype)
+    generated_configs = generate_resnet_genotypes()
+    generated_config = generated_configs["resnet26"]
+
+    model: nn.Module = ResNet26(generated_config)
 
     minibatch: torch.Tensor = torch.rand(64, 3, 32, 32)
 
