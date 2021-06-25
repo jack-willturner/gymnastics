@@ -16,3 +16,6 @@ class Skeleton(nn.Module):
         out = out.view(out.size(0), -1)
 
         return self.classifier(out)
+
+    def show_picture(self):
+        pass

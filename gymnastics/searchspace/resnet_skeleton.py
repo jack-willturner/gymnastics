@@ -1,10 +1,12 @@
 import torch.nn as nn
-from gymnastics.searchspace import Skeleton
+from gymnastics.searchspace import Cell, Skeleton
 
 
 class ResNetCIFARSkeleton(Skeleton):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNetCIFARSkeleton, self).__init__()
+
+        self.cell = block
 
         self.in_planes = 64
 
@@ -42,9 +44,11 @@ class ResNetCIFARSkeleton(Skeleton):
         return nn.Sequential(*layers)
 
 
-def NASBench101Skeleton(cell):
-    return ResNetCIFARSkeleton(cell, [3, 3, 3, 3])
+class NASBench101Skeleton:
+    def build_with_cell(self, cell: Cell) -> Skeleton:
+        return ResNetCIFARSkeleton(cell, [3, 3, 3, 3])
 
 
-def NASBench201Skeleton(cell):
-    return ResNetCIFARSkeleton(cell, [3, 3, 3, 3])
+class NASBench201Skeleton:
+    def build_with_cell(self, cell: Cell) -> Skeleton:
+        return ResNetCIFARSkeleton(cell, [3, 3, 3, 3])
