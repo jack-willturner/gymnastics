@@ -1,7 +1,7 @@
 from .cell import Cell, Node, Edge
-from .cellspace import CellSpace
+from .cellspace import CellSpace, NASBench101CellSpace, NASBench201CellSpace
 from .skeleton import Skeleton
-from .resnet_skeleton import NASBench101Skeleton, NASBench201Skeleton
+from .skeletons.resnet_skeleton import NASBench101Skeleton, NASBench201Skeleton
 
 __all__ = [
     "Cell",
@@ -9,6 +9,8 @@ __all__ = [
     "Edge",
     "Node",
     "Skeleton",
+    "NASBench101CellSpace",
     "NASBench101Skeleton",
+    "NASBench201CellSpace",
     "NASBench201Skeleton",
 ]
