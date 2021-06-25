@@ -9,12 +9,12 @@ class MixConv(nn.Module):
         self,
         in_channels,
         out_channels,
-        kernel_size,
-        stride,
-        bias,
+        kernel_size=None,
+        stride=1,
+        bias=False,
         groups=2,
         padding=1,
-        kernel_sizes=None,
+        kernel_sizes=[3, 5],
     ):
         super(MixConv, self).__init__()
 
