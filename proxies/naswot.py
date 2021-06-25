@@ -34,6 +34,9 @@ class NASWOT(Proxy):
                     module.register_forward_hook(counting_forward_hook)
                     module.register_backward_hook(counting_backward_hook)
 
+        _ = model(minibatch)
+        return model.K
+
     def score(self, model: nn.Module, minibatch: torch.Tensor) -> float:
         K = self.get_K(model, minibatch)
         _, logdet = np.linalg.slogdet(K)
