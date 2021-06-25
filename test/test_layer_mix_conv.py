@@ -57,7 +57,7 @@ def generate_bottleneck_config():
 
 
 def test_mix_conv_resnet_26():
-    from models import ResNet26
+    from gymnastics.models import ResNet26
 
     config = generate_bottleneck_config()
 

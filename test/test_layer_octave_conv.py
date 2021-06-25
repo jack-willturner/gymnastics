@@ -1,6 +1,3 @@
-import torch
-
-
 def generate_bottleneck_config():
 
     # RESNET-26 SKELETON

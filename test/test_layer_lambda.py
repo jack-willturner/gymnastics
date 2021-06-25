@@ -1,5 +1,5 @@
 import torch
-from models import ResNet18, ResNet26
+from gymnastics.models import ResNet18, ResNet26
 
 
 def test_lambda_layer_with_basic_block():

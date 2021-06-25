@@ -1,12 +1,12 @@
 import torch
 import yaml
 
-from models import ResNet18
+from gymnastics.models import ResNet18
 
 
 def test_resnet18():
 
-    with open("genotypes/resnet18.yaml", "r") as config_file:
+    with open("gymnastics/genotypes/resnet18.yaml", "r") as config_file:
         configs = yaml.safe_load(config_file)
 
     net = ResNet18(configs)

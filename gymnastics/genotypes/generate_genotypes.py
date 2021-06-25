@@ -1,7 +1,7 @@
 import yaml
 import numpy as np
 from typing import Dict, List, Union
-from models.layers import layer_type_registry
+from gymnastics.models.layers import layer_type_registry
 
 
 class BasicBlockGenerator:
@@ -143,14 +143,24 @@ def generate_baseline_genotype_with_random_middle_convs(
     return config
 
 
+baselines = {
+    "resnet18": (BasicBlockGenerator, [2, 2, 2, 2], [1, 2, 2, 2]),
+    "resnet26": (BottleneckGenerator, [2, 2, 2, 2], [1, 2, 2, 2]),
+    "resnet34": (BasicBlockGenerator, [3, 4, 6, 3], [1, 2, 2, 2]),
+}
+
+
+def generate_random_genotype(model: str = "resnet26") -> Dict:
+    generator, n_blocks, strides = baselines[model]
+
+    return generate_baseline_genotype_with_random_middle_convs(
+        generator, n_blocks, strides
+    )
+
+
 def generate_resnet_genotypes(conv_type: str = "Conv", save: bool = False) -> Dict:
 
     generated_configs = {}
-    baselines = {
-        "resnet18": (BasicBlockGenerator, [2, 2, 2, 2], [1, 2, 2, 2]),
-        "resnet26": (BottleneckGenerator, [2, 2, 2, 2], [1, 2, 2, 2]),
-        "resnet34": (BasicBlockGenerator, [3, 4, 6, 3], [1, 2, 2, 2]),
-    }
 
     for name, (generator, n_blocks, strides) in baselines.items():
         config = generate_baseline_genotype(generator(), n_blocks, strides, conv_type)

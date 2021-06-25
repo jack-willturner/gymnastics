@@ -3,7 +3,7 @@ import torch
 
 def test_shift_layer():
 
-    from models.layers import ShiftConv
+    from gymnastics.models.layers import ShiftConv
 
     # put a little square somewhere in the image
     x = torch.zeros(1, 9, 10, 10)
@@ -44,7 +44,7 @@ def test_shift_layer():
 
 def test_shift_when_in_channels_not_divisible_by_groups():
 
-    from models.layers import ShiftConv
+    from gymnastics.models.layers import ShiftConv
 
     x = torch.zeros(1, 64, 10, 10)
 
@@ -59,7 +59,7 @@ def test_shift_when_in_channels_not_divisible_by_groups():
 
 def test_shift_when_out_channels_not_divisible_by_groups():
 
-    from models.layers import ShiftConv
+    from gymnastics.models.layers import ShiftConv
 
     x = torch.zeros(1, 27, 10, 10)
 
@@ -74,7 +74,7 @@ def test_shift_when_out_channels_not_divisible_by_groups():
 
 def test_shift_when_neither_out_nor_in_channels_are_divisible_by_groups():
 
-    from models.layers import ShiftConv
+    from gymnastics.models.layers import ShiftConv
 
     x = torch.zeros(1, 64, 10, 10)
 

@@ -6,7 +6,7 @@ def test_resnet18_genotype_generator():
     with open("test/genotypes/resnet18_baseline.yaml", "r") as config_file:
         ground_truth_config = yaml.safe_load(config_file)
 
-    from genotypes import generate_resnet_genotypes
+    from gymnastics.genotypes import generate_resnet_genotypes
 
     generated_configs = generate_resnet_genotypes()
     generated_config = generated_configs["resnet18"]
@@ -16,13 +16,13 @@ def test_resnet18_genotype_generator():
 
 def test_resnet26_genotype_generator():
 
-    from genotypes import generate_resnet_genotypes
+    from gymnastics.genotypes import generate_resnet_genotypes
 
     generated_configs = generate_resnet_genotypes()
     generated_config = generated_configs["resnet26"]
 
     import torch
-    from models import ResNet26
+    from gymnastics.models import ResNet26
 
     model = ResNet26(generated_config)
 
@@ -34,11 +34,11 @@ def test_resnet26_genotype_generator():
 def test_random_resnet_generator():
     import torch
     import torch.nn as nn
-    from genotypes import (
+    from gymnastics.genotypes import (
         BottleneckGenerator,
         generate_baseline_genotype_with_random_middle_convs,
     )
-    from models import ResNet26
+    from gymnastics.models import ResNet26
     from typing import Dict
 
     for _ in range(10):

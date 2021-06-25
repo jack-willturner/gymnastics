@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import torch.nn as nn
-from proxies.proxy import Proxy
+from gymnastics.proxies.proxy import Proxy
 
 
 class NASWOT(Proxy):
