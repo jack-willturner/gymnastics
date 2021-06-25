@@ -17,11 +17,17 @@ class Dataset(ABC):
         self.batch_size: int = batch_size
         self.num_workers: int = num_workers
 
-        train_set, val_set, test_set = self.get_data_sets(
+        self.set_transforms()
+
+        train_set, val_set, test_set, _ = self.get_data_sets(
             path, val_split_percentage, seed, download
         )
 
         _ = self.get_data_loaders(train_set, val_set, test_set)
+
+    @abstractmethod
+    def set_transforms(self) -> None:
+        raise NotImplementedError
 
     @abstractmethod
     def get_data_sets(
@@ -62,7 +68,6 @@ class Dataset(ABC):
 
         return self.train_loader, self.val_loader, self.test_loader
 
-    @abstractmethod
     def sample_minibatch(self, train: bool = True) -> Tuple[torch.Tensor, torch.Tensor]:
 
         if train:

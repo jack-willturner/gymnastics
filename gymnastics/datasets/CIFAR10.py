@@ -7,9 +7,20 @@ from .utils import ImageShape
 
 
 class CIFAR10Loader(Dataset):
-    def __init__(self):
-        super().__init__()
+    def __init__(
+        self,
+        path: str,
+        batch_size: int = 128,
+        num_workers: int = 0,
+        val_split_percentage: float = 0.3,
+        seed: int = 1,
+        download: bool = False,
+    ) -> None:
+        super().__init__(
+            path, batch_size, num_workers, val_split_percentage, seed, download
+        )
 
+    def set_transforms(self) -> None:
         normalize = transforms.Normalize(
             mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
         )
