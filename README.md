@@ -45,14 +45,14 @@ The goal of the library will be to be able to do stuff like:
 import gymnastics 
 from gymnastics.datasets import CIFAR10
 from gynastics.proxies import NASWOT
-from gymnastics.searchspace import SearchSpace, NASBench101Skeleton, NASBench201CellSpace
-
-# use the 101 Skeleton with the 201 cell space
-skeleton = NASBench101Skeleton()
-cell_space = NASBench201CellSpace()
-
+from gymnastics.searchspace import SearchSpace, NASBench101Skeleton, CellSpace
+ 
+# use the 101 skeleton with the 201 cell space
 search_space = SearchSpace(
-  skeleton, cell_space
+  NASBench101Skeleton, 
+  CellSpace(
+        ops=[Conv3x3, Conv1x1, AvgPool2d, Identity, Zeroize], num_nodes=4, num_edges=6
+    )
 )
 
 # create an accuracy predictor
@@ -82,7 +82,21 @@ Which prints:
 
 ![](figures/best_model.png)
 
-## Supported operations
+## Roadmap
+
+1. Primary focus is to have (well-tested) support for at least:
+   - [ ] NAS-Bench-101
+   - [ ] NAS-Bench-201
+   - [ ] NAS-Bench-301
+   - [ ] NATS-Bench
+   - [ ] NDS
+2. Next stage will be to add the database connections for each 
+3. Some additional tooling like the grapher 
+4. Add in other proxies/predictors
+5. Training pipeline
+6. Add in standardised NAS implementations
+
+## Additional supported operations
 
 | Done | Tested | Op                  | Paper                                         | Notes                                                               |
 | ---- | ------ | ------------------- | --------------------------------------------- | ------------------------------------------------------------------- |
