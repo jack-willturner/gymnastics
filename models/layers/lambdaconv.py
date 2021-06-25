@@ -27,7 +27,7 @@ class LambdaConv(nn.Module):
         assert stride in [1, 2]
         self.stride = stride
 
-        self.conv_qkv = nn.Conv2d(planes, Nh * dk + dk * du + dv * du, 1, bias=False)
+        self.conv_qkv = nn.Conv2d(in_planes, Nh * dk + dk * du + dv * du, 1, bias=False)
         self.norm_q = nn.BatchNorm2d(Nh * dk)
         self.norm_v = nn.BatchNorm2d(dv * du)
         self.softmax = nn.Softmax(dim=-1)
