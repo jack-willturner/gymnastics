@@ -6,7 +6,7 @@ from models import ResNet18
 
 def test_resnet18():
 
-    with open("bloks/genotypes/resnet18.yaml", "r") as config_file:
+    with open("genotypes/resnet18.yaml", "r") as config_file:
         configs = yaml.safe_load(config_file)
 
     net = ResNet18(configs)
