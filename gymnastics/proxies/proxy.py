@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Proxy(ABC):
     @abstractmethod
-    def score(self, **kwargs) -> float:
+    def score(self, model, minibatch) -> float:
         """This function should return a scalar value which "scores" the network.
         It can take anything you like as input.
 
