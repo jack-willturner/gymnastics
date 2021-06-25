@@ -9,7 +9,7 @@ class BasicBlockGenerator:
         self, conv_type: Union[List[str], str] = "Conv", stride: int = 1
     ) -> Dict:
         if not isinstance(conv_type, list):
-            conv_type = [conv_type] * 2
+            conv_type = [conv_type, conv_type]
 
         block_config = {}
 
@@ -42,7 +42,7 @@ class BottleneckGenerator:
     ) -> Dict:
 
         if not isinstance(conv_type, list):
-            conv_type = [conv_type] * 3
+            conv_type = [conv_type, conv_type, conv_type]
 
         block_config = {}
 
@@ -92,7 +92,7 @@ def generate_baseline_genotype(
         for b in range(stage):
 
             block_config = generator.generate_block_config(
-                conv_type, stride if b == 0 else 1
+                conv_type=conv_type, stride=stride if b == 0 else 1
             )
 
             stage_config[f"block{b+1}"] = block_config
@@ -133,7 +133,7 @@ def generate_baseline_genotype_with_random_middle_convs(
             conv_type = np.random.choice(conv_types)
 
             block_config: Dict = generator.generate_block_config(
-                conv_type, stride if b == 0 else 1
+                ["Conv", conv_type, "Conv"], stride if b == 0 else 1
             )
 
             stage_config[f"block{b+1}"] = block_config
@@ -153,7 +153,7 @@ def generate_resnet_genotypes(conv_type: str = "Conv", save: bool = False) -> Di
     }
 
     for name, (generator, n_blocks, strides) in baselines.items():
-        config = generate_baseline_genotype(generator, n_blocks, strides, conv_type)
+        config = generate_baseline_genotype(generator(), n_blocks, strides, conv_type)
 
         if save:
             with open(f"genotypes/{name}.yaml", "w") as file:
