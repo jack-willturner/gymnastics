@@ -51,7 +51,7 @@ class BottleneckGenerator:
             "layer_args": {
                 "stride": 1,
                 "kernel_size": 1,
-                "padding": 1,
+                "padding": 0,
                 "bias": False,
             },
         }
@@ -71,7 +71,7 @@ class BottleneckGenerator:
             "layer_args": {
                 "stride": 1,
                 "kernel_size": 1,
-                "padding": 1,
+                "padding": 0,
                 "bias": False,
             },
         }
