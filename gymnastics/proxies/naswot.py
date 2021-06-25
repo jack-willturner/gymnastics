@@ -23,8 +23,8 @@ class NASWOT(Proxy):
                 K2 = (1.0 - x) @ (1.0 - x.t())
 
                 model.K = model.K + K.cpu().numpy() + K2.cpu().numpy()
-            except:
-                pass
+            except Exception as e:
+                print(e)
 
         def counting_backward_hook(module, input, output):
             module.visited_backwards = True
