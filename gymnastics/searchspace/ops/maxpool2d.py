@@ -11,6 +11,10 @@ class MaxPool2d(nn.Module):
         padding=1,
     ):
         super(MaxPool2d, self).__init__()
+        # register that channels won't change
+        self.in_planes = in_planes
+        self.out_planes = in_planes
+
         self.maxpool = nn.MaxPool2d(
             kernel_size=kernel_size,
             stride=stride,

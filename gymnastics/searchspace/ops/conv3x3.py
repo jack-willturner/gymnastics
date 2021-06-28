@@ -12,6 +12,10 @@ class Conv3x3(nn.Module):
         padding=1,
     ):
         super(Conv3x3, self).__init__()
+
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+
         self.conv = nn.Conv2d(
             in_channels,
             out_channels,
@@ -22,6 +26,8 @@ class Conv3x3(nn.Module):
         )
 
     def forward(self, x):
+        self.conv.in_channels = x.size()
+
         return self.conv(x)
 
     def __str__(self):

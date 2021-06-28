@@ -11,6 +11,11 @@ class AvgPool2d(nn.Module):
         padding=1,
     ):
         super(AvgPool2d, self).__init__()
+
+        # register that channels won't change
+        self.in_planes = in_planes
+        self.out_planes = in_planes
+
         self.avgpool = nn.AvgPool2d(
             kernel_size=kernel_size,
             stride=stride,

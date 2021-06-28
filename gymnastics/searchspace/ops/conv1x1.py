@@ -12,6 +12,10 @@ class Conv1x1(nn.Module):
         padding=0,
     ):
         super(Conv1x1, self).__init__()
+
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+
         self.conv = nn.Conv2d(
             in_channels,
             out_channels,

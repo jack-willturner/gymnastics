@@ -17,6 +17,9 @@ class DWSeparableConv(nn.Module):
         """
         super(DWSeparableConv, self).__init__()
 
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+
         self.dw_conv = nn.Conv2d(
             in_channels,
             in_channels,

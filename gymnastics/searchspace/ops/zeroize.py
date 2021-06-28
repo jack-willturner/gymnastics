@@ -5,6 +5,8 @@ import torch.nn as nn
 class Zeroize(nn.Module):
     def __init__(self, in_planes, out_planes, **kwargs):
         super(Zeroize, self).__init__()
+        self.in_planes = in_planes
+        self.out_planes = 0
 
     def forward(self, x):
         return torch.zeros(x.size())

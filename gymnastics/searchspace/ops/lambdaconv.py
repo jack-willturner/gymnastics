@@ -5,8 +5,8 @@ import torch.nn as nn
 class LambdaConv(nn.Module):
     def __init__(
         self,
-        in_planes,
-        planes,
+        in_channels,
+        out_channels,
         dk=16,
         du=1,
         Nh=4,
@@ -17,17 +17,22 @@ class LambdaConv(nn.Module):
     ):
         super(LambdaConv, self).__init__()
 
-        self.d = planes
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+
+        self.d = out_channels
         self.dk = dk
         self.du = du
         self.Nh = Nh
-        assert planes % Nh == 0, "d should be divided by Nh"
-        dv = planes // Nh
+        assert out_channels % Nh == 0, "d should be divided by Nh"
+        dv = out_channels // Nh
         self.dv = dv
         assert stride in [1, 2]
         self.stride = stride
 
-        self.conv_qkv = nn.Conv2d(in_planes, Nh * dk + dk * du + dv * du, 1, bias=False)
+        self.conv_qkv = nn.Conv2d(
+            in_channels, Nh * dk + dk * du + dv * du, 1, bias=False
+        )
         self.norm_q = nn.BatchNorm2d(Nh * dk)
         self.norm_v = nn.BatchNorm2d(dv * du)
         self.softmax = nn.Softmax(dim=-1)

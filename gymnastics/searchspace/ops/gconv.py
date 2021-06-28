@@ -13,6 +13,10 @@ class GConv(nn.Module):
         padding=1,
     ):
         super(GConv, self).__init__()
+
+        self.in_channels = in_channels
+        self.out_channels = out_channels
+
         self.conv = nn.Conv2d(
             in_channels,
             out_channels,
