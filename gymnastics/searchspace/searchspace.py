@@ -1,3 +1,4 @@
+import torch.nn as nn
 from .utils import CellConfiguration, is_valid_cell
 
 
@@ -6,7 +7,7 @@ class SearchSpace:
         self.cell_space = cell_space
         self.skeleton_builder = skeleton_generation_function
 
-    def sample_random_architecture(self):
+    def sample_random_architecture(self) -> nn.Module:
 
         found_valid_cell = False
 

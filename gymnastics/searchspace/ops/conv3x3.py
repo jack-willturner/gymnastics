@@ -25,7 +25,7 @@ class Conv3x3(nn.Module):
         return self.conv(x)
 
     def __str__(self):
-        return "Conv3x3"
+        return f"Conv3x3({self.conv.in_channels} -> {self.conv.out_channels})"
 
     def __repr__(self):
-        return "Conv3x3"
+        return f"Conv3x3({self.conv.in_channels} -> {self.conv.out_channels})"

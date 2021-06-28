@@ -9,7 +9,7 @@ class Conv1x1(nn.Module):
         kernel_size=None,
         stride=1,
         bias=False,
-        padding=1,
+        padding=0,
     ):
         super(Conv1x1, self).__init__()
         self.conv = nn.Conv2d(
@@ -25,7 +25,7 @@ class Conv1x1(nn.Module):
         return self.conv(x)
 
     def __str__(self):
-        return "Conv1x1"
+        return f"Conv1x1({self.conv.in_channels} -> {self.conv.out_channels})"
 
     def __repr__(self):
-        return "Conv1x1"
+        return f"Conv1x1({self.conv.in_channels} -> {self.conv.out_channels})"

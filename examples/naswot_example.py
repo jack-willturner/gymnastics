@@ -25,6 +25,9 @@ for i in range(1):
 
     model = search_space.sample_random_architecture()
 
+    for module in model.named_modules():
+        print(module)
+
     score = proxy.score(model, minibatch)
 
     if score > best_score:

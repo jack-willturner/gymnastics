@@ -15,11 +15,11 @@ class Node:
     label: Optional[str] = None
 
 
-@dataclass(unsafe_hash=True)
+@dataclass(unsafe_hash=True, order=True)
 class Edge:
-    op: nn.Module
     from_node_id: str
     to_node_id: str
+    op: nn.Module
     connected_to_input: Optional[bool] = False
     connected_to_output: Optional[bool] = False
     label: Optional[str] = None

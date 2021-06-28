@@ -69,7 +69,7 @@ class CellSpace:
 
             from_node, to_node = possible_pairs_of_nodes[edge_num]
 
-            edges[edge_num] = Edge(op, from_node, to_node)
+            edges[edge_num] = Edge(from_node_id=from_node, to_node_id=to_node, op=op)
 
             # log this to the adjacency matrix
             adjacency_matrix[from_node, to_node] = op_index

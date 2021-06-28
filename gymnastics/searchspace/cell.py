@@ -12,7 +12,6 @@ class Cell(nn.Module):
         self,
         cell_config: CellConfiguration,
         in_planes: int,
-        hidden_planes: int,
         out_planes: int,
         stride: int,
         expansion: int = 4,
@@ -38,22 +37,17 @@ class Cell(nn.Module):
 
         self.expansion = expansion
 
-        self.configure(in_planes, hidden_planes, out_planes, stride=stride)
+        self.configure_sizes(in_planes, out_planes, stride=stride)
 
-    def configure(self, in_planes, hidden_planes, out_planes, **kwargs) -> None:
+    def configure_sizes(self, in_planes, out_planes, **kwargs) -> None:
 
         for edge in self.edges.values():
-            if edge.connected_to_input and edge.connected_to_output:
+
+            if edge.connected_to_input:
                 edge.op = edge.op(in_planes, out_planes, **kwargs)
 
-            elif edge.connected_to_input:
-                edge.op = edge.op(in_planes, hidden_planes, **kwargs)
-
-            elif edge.connected_to_output:
-                edge.op = edge.op(hidden_planes, out_planes, **kwargs)
-
             else:
-                edge.op = edge.op(hidden_planes, hidden_planes, **kwargs)
+                edge.op = edge.op(out_planes, out_planes, **kwargs)
 
     def forward(self, x, return_logits=False):
 
@@ -67,7 +61,7 @@ class Cell(nn.Module):
             self.nodes[node_id].feature_map = x
 
         # do the main forward pass of the cell
-        for edge in self.edges.values():
+        for edge in sorted(self.edges.values()):
 
             if self.nodes[edge.to_node_id].feature_map is not None:
 
@@ -81,3 +75,20 @@ class Cell(nn.Module):
 
         # return whatever the output is
         return self.nodes[self.output_node_id].feature_map
+
+    def __repr__(self):
+
+        s = "Cell("
+        for edge in self.edges.values():
+            s = (
+                s
+                + str(edge.from_node_id)
+                + "-"
+                + str(edge.op)
+                + "->"
+                + str(edge.to_node_id)
+                + "\n"
+            )
+        s = s + ")"
+
+        return s

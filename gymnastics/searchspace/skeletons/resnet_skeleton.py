@@ -57,7 +57,6 @@ class ResNetCIFARSkeleton(Skeleton):
                 Cell(
                     cell_config,
                     in_planes=self.in_planes,
-                    hidden_planes=planes,
                     out_planes=planes,
                     stride=stride,
                     expansion=self.block_expansion,

@@ -21,7 +21,7 @@ class AvgPool2d(nn.Module):
         return self.avgpool(x)
 
     def __str__(self):
-        return "AvgPool2d"
+        return f"AvgPool2d({self.avgpool.kernel_size})"
 
     def __repr__(self):
-        return "AvgPool2d"
+        return f"AvgPool2d({self.avgpool.kernel_size})"
