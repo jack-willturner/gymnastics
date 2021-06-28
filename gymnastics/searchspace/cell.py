@@ -1,45 +1,66 @@
-import torch
+import copy
 import torch.nn as nn
-from dataclasses import dataclass
-from typing import Dict, Optional
 
-__all__ = ["Node", "Edge"]
+from gymnastics.searchspace.utils import CellConfiguration
+from typing import Dict
 
-
-@dataclass(unsafe_hash=True)
-class Node:
-    id: int
-    feature_map: Optional[torch.Tensor] = None
-    label: Optional[str] = None
-
-
-@dataclass(unsafe_hash=True)
-class Edge:
-    op: nn.Module
-    from_node_id: str
-    to_node_id: str
-    label: Optional[str] = None
+__all__ = ["Cell"]
 
 
 class Cell(nn.Module):
-    def __init__(self, edges, nodes, input_node_ids=[0], output_node_id: int = None):
+    def __init__(
+        self,
+        cell_config: CellConfiguration,
+        in_planes: int,
+        hidden_planes: int,
+        out_planes: int,
+        stride: int,
+        expansion: int = 4,
+    ):
         super(Cell, self).__init__()
-        self.nodes: Dict = nodes
-        self.edges: Dict = edges
+        self.nodes: Dict = copy.deepcopy(cell_config.nodes)
+        self.edges: Dict = copy.deepcopy(cell_config.edges)
 
-        self.input_node_ids = input_node_ids
+        self.input_node_ids = cell_config.input_node_ids
 
-        if output_node_id is None:
-            output_node_id = len(nodes) - 1
+        if cell_config.output_node_id is None:
+            cell_config.output_node_id = len(self.nodes) - 1
 
-        self.output_node_id = output_node_id
+        self.output_node_id = cell_config.output_node_id
+
+        # register which nodes are connected to input/output
+        for edge in self.edges.values():
+            if edge.from_node_id in self.input_node_ids:
+                edge.connected_to_input = True
+
+            if edge.to_node_id == self.output_node_id:
+                edge.connected_to_output = True
+
+        self.expansion = expansion
+
+        self.configure(in_planes, hidden_planes, out_planes, stride=stride)
+
+    def configure(self, in_planes, hidden_planes, out_planes, **kwargs) -> None:
+
+        for edge in self.edges.values():
+            if edge.connected_to_input and edge.connected_to_output:
+                edge.op = edge.op(in_planes, out_planes, **kwargs)
+
+            elif edge.connected_to_input:
+                edge.op = edge.op(in_planes, hidden_planes, **kwargs)
+
+            elif edge.connected_to_output:
+                edge.op = edge.op(hidden_planes, out_planes, **kwargs)
+
+            else:
+                edge.op = edge.op(hidden_planes, hidden_planes, **kwargs)
 
     def forward(self, x, return_logits=False):
 
         # set all feature maps to zero
         for node in self.nodes.values():
             if node.feature_map is not None:
-                node.feature_map = torch.zeros(node.feature_map.size())
+                node.feature_map = None
 
         # accumulate the inputs
         for node_id in self.input_node_ids:
@@ -49,6 +70,7 @@ class Cell(nn.Module):
         for edge in self.edges.values():
 
             if self.nodes[edge.to_node_id].feature_map is not None:
+
                 self.nodes[edge.to_node_id].feature_map += edge.op(
                     self.nodes[edge.from_node_id].feature_map
                 )

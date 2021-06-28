@@ -4,6 +4,8 @@ import torch.nn as nn
 class MaxPool2d(nn.Module):
     def __init__(
         self,
+        in_planes,
+        out_planes,
         kernel_size=3,
         stride=1,
         padding=1,

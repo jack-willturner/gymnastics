@@ -23,3 +23,9 @@ class Conv1x1(nn.Module):
 
     def forward(self, x):
         return self.conv(x)
+
+    def __str__(self):
+        return "Conv1x1"
+
+    def __repr__(self):
+        return "Conv1x1"

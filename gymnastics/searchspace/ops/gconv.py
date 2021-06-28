@@ -6,9 +6,9 @@ class GConv(nn.Module):
         self,
         in_channels,
         out_channels,
-        kernel_size,
-        stride,
-        bias,
+        kernel_size=3,
+        stride=1,
+        bias=False,
         groups=1,
         padding=1,
     ):
@@ -25,3 +25,9 @@ class GConv(nn.Module):
 
     def forward(self, x):
         return self.conv(x)
+
+    def __str__(self):
+        return f"GConv{self.conv.kernel_size}x{self.conv.kernel_size}"
+
+    def __repr__(self):
+        return f"GConv{self.conv.kernel_size}x{self.conv.kernel_size}"

@@ -44,7 +44,7 @@ The goal of the library will be to be able to do stuff like:
 ```python
 import gymnastics 
 from gymnastics.datasets import CIFAR10
-from gynastics.proxies import NASWOT
+from gymnastics.proxies import NASWOT
 from gymnastics.searchspace import SearchSpace, NASBench101Skeleton, CellSpace
  
 # use the 101 skeleton with the 201 cell space

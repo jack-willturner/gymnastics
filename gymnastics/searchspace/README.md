@@ -32,3 +32,10 @@ search_space = SearchSpace(skeleton, cell_space)
 ```
 
 
+
+## A walkthrough 
+
+When we call `searchspace.sample_random_architecture` it does two things: it first generates a random cell from the cell space (via `CellSpace.generate_random_cell`), and then it initialises a skeleton using the cell. 
+
+`CellSpace.generate_random_cell` constructs a `Cell`, which is really just a tuple of `Node`s and `Edge`s. The `Edge` is the important bit, and it carries an `Op` with it. The `Op` will need to be configured by the skeleton (e.g. if it's a ResNet style skeleton with four stages of increasing channels/decreasing spatial dimensions, the `Op`s will need to be configured to have the right number of input/output channels and strides.)
+

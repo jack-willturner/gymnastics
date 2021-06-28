@@ -6,9 +6,9 @@ class DWSeparableConv(nn.Module):
         self,
         in_channels,
         out_channels,
-        kernel_size,
-        stride,
-        bias,
+        kernel_size=3,
+        stride=1,
+        bias=False,
         groups=1,
         padding=1,
     ):
@@ -33,3 +33,9 @@ class DWSeparableConv(nn.Module):
 
         out = self.dw_conv(x)
         return self.pw_conv(out)
+
+    def __str__(self):
+        return "DWSeparableConv"
+
+    def __repr__(self):
+        return "DWSeparableConv"

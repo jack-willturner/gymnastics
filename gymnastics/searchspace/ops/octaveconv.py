@@ -12,7 +12,7 @@ class OctConv(nn.Module):
         self,
         in_channels,
         out_channels,
-        kernel_size,
+        kernel_size=3,
         stride=1,
         padding=0,
         alpha_in=0.25,

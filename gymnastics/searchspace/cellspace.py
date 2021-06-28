@@ -1,7 +1,7 @@
 import numpy as np
 
 from typing import List
-from gymnastics.searchspace import Node, Edge, Cell
+from gymnastics.searchspace.utils import Node, Edge, CellConfiguration
 from gymnastics.searchspace.ops import (
     Conv3x3,
     Conv1x1,
@@ -23,8 +23,11 @@ class CellSpace:
         self.num_nodes = num_nodes
         self.num_edges = num_edges
 
-    def generate_random_cell(self):
+    def generate_random_cell_configuration(self) -> CellConfiguration:
 
+        # store the cell in two formats
+        # 1. a list of nodes and edges
+        # 2. an adjacency matrix
         nodes = {}
         edges = {}
 
@@ -41,21 +44,64 @@ class CellSpace:
             else np.random.choice(self.num_edges)
         )
 
+        adjacency_matrix = np.zeros(shape=(num_nodes, num_nodes))
+
         # create a dictionary of empty nodes
-        for node_id in num_nodes:
+        for node_id in range(num_nodes):
             nodes[node_id] = Node(node_id)
 
         # get the node ids, so we can choose edges to randomly connect them
         node_ids = list(nodes.keys())
 
-        for edge_num in num_edges:
+        # randomly choose an op to connect two random nodes
+        for edge_num in range(num_edges):
 
-            op = np.random.choice(self.ops)
+            # select a random op
+            op_index = np.random.randint(0, len(self.ops))
+            op = self.ops[op_index]
+
+            # select two random nodes (without replacement)
             from_node, to_node = np.random.choice(node_ids, 2, replace=False)
-
             edges[edge_num] = Edge(op, from_node, to_node)
 
-        return Cell(edges, nodes)
+            # log this to the adjacency matrix
+            adjacency_matrix[from_node, to_node] = op_index
+
+        def validate_cell_config(cell_config):
+            pass
+
+            # ensure there are no cycles
+
+            # ensure there is a path from input to output
+
+        def breadth_first_traversal(cell_config, start: int, end: int):
+
+            queue = [[start]]
+
+            while queue:
+
+                path = queue.pop(0)
+                node = path[-1]
+
+                if node == end:
+                    return path
+
+                for neighbour in adjacency_matrix[node]:
+
+                    if neighbour in path:
+                        return None
+
+                    queue.append(path + [neighbour])
+
+            return None
+
+        return CellConfiguration(
+            edges,
+            nodes,
+            input_node_ids=[0],
+            output_node_id=node_ids[-1],
+            adjacency_matrix=adjacency_matrix,
+        )
 
 
 def NASBench101CellSpace() -> CellSpace:

@@ -86,9 +86,9 @@ dependencies:
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.9=ha95c52a_0
   - pip:
-    - colorama==0.4.4
-    - commonmark==0.9.1
-    - gputil==1.4.0
-    - pygments==2.8.1
-    - rich==10.1.0
-    - pytest==5.4.0
+      - colorama==0.4.4
+      - commonmark==0.9.1
+      - gputil==1.4.0
+      - pygments==2.8.1
+      - rich==10.1.0
+      - pytest==5.4.0

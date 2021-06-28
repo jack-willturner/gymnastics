@@ -1,24 +1,15 @@
-from abc import ABC, abstractmethod
-
-
-class SearchSpace(ABC):
-    def __init__(self, cell_space, skeleton):
+class SearchSpace:
+    def __init__(self, cell_space, skeleton_generation_function):
         self.cell_space = cell_space
-        self.skeleton = skeleton
+        self.skeleton_builder = skeleton_generation_function
 
-    @abstractmethod
     def sample_random_architecture(self):
-        # get skeleton properties (n_blocks, strides)
-        # generate genotype from cell_space
-        # build network
-        # return it
-        raise NotImplementedError
+        cell = self.cell_space.generate_random_cell_configuration()
+        return self.skeleton_builder.build_with_cell(cell)
 
-    @abstractmethod
     def __iter__(self):
         raise NotImplementedError
 
-    @abstractmethod
     def calc_length(self):
         raise NotImplementedError
 

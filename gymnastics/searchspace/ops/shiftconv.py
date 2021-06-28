@@ -7,9 +7,9 @@ class ShiftConv(nn.Module):
         self,
         in_channels,
         out_channels,
-        kernel_size,
-        stride,
-        bias,
+        kernel_size=3,
+        stride=1,
+        bias=False,
         groups=1,
         padding=1,
     ):
