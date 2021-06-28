@@ -1,5 +1,6 @@
+import random
 import numpy as np
-
+from itertools import combinations
 from typing import List
 from gymnastics.searchspace.utils import Node, Edge, CellConfiguration
 from gymnastics.searchspace.ops import (
@@ -23,6 +24,10 @@ class CellSpace:
         self.num_nodes = num_nodes
         self.num_edges = num_edges
 
+        # this is a dictionary which converts indices into op names
+        self.op_encoder = {i: str(op) for i, op in enumerate(ops)}
+        self.op_encoder[-1] = "None"
+
     def generate_random_cell_configuration(self) -> CellConfiguration:
 
         # store the cell in two formats
@@ -44,64 +49,40 @@ class CellSpace:
             else np.random.choice(self.num_edges)
         )
 
-        adjacency_matrix = np.zeros(shape=(num_nodes, num_nodes))
+        # set adj matrix to -1s to indicate no operation
+        adjacency_matrix = np.zeros(shape=(num_nodes, num_nodes), dtype=int) - 1
 
         # create a dictionary of empty nodes
         for node_id in range(num_nodes):
             nodes[node_id] = Node(node_id)
 
-        # get the node ids, so we can choose edges to randomly connect them
-        node_ids = list(nodes.keys())
+        # get all possible pairs of nodes and shuffle them
+        possible_pairs_of_nodes = list(combinations(list(nodes.keys()), 2))
+        random.shuffle(possible_pairs_of_nodes)
 
         # randomly choose an op to connect two random nodes
         for edge_num in range(num_edges):
 
             # select a random op
-            op_index = np.random.randint(0, len(self.ops))
+            op_index = np.random.randint(0, len(self.ops) - 1)
             op = self.ops[op_index]
 
-            # select two random nodes (without replacement)
-            from_node, to_node = np.random.choice(node_ids, 2, replace=False)
+            from_node, to_node = possible_pairs_of_nodes[edge_num]
+
             edges[edge_num] = Edge(op, from_node, to_node)
 
             # log this to the adjacency matrix
             adjacency_matrix[from_node, to_node] = op_index
 
-        def validate_cell_config(cell_config):
-            pass
-
-            # ensure there are no cycles
-
-            # ensure there is a path from input to output
-
-        def breadth_first_traversal(cell_config, start: int, end: int):
-
-            queue = [[start]]
-
-            while queue:
-
-                path = queue.pop(0)
-                node = path[-1]
-
-                if node == end:
-                    return path
-
-                for neighbour in adjacency_matrix[node]:
-
-                    if neighbour in path:
-                        return None
-
-                    queue.append(path + [neighbour])
-
-            return None
-
-        return CellConfiguration(
+        cell_config = CellConfiguration(
             edges,
             nodes,
             input_node_ids=[0],
-            output_node_id=node_ids[-1],
+            output_node_id=num_nodes - 1,
             adjacency_matrix=adjacency_matrix,
         )
+
+        return cell_config
 
 
 def NASBench101CellSpace() -> CellSpace:
