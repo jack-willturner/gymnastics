@@ -2,15 +2,28 @@ import torch
 import torch.nn as nn
 import numpy as np
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
-__all__ = ["CellConfiguration", "Node", "Edges"]
+__all__ = ["CellConfiguration", "Node", "Edges", "Dataset"]
+
+
+@dataclass
+class Dataset:
+    name: str
+    num_classes: int
+    image_size: Tuple[int, int, int]
+
+
+CIFAR10 = Dataset("CIFAR-10", 10, (3, 32, 32))
+CIFAR100 = Dataset("CIFAR-100", 100, (3, 32, 32))
+ImageNet16_120 = Dataset("ImageNet-16-120", 10, (3, 32, 32))
 
 
 @dataclass(unsafe_hash=True)
 class Node:
     id: int
+    channels: Optional[int] = None
     feature_map: Optional[torch.Tensor] = None
     label: Optional[str] = None
 

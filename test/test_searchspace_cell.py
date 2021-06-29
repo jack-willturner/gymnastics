@@ -27,9 +27,9 @@ def test_simple_celltype():
             output_node_id=2,
             adjacency_matrix=None,
         ),
-        in_planes=3,
+        in_channels=3,
         hidden_planes=64,
-        out_planes=64,
+        out_channels=64,
         stride=1,
     )
 

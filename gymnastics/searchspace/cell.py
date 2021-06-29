@@ -11,8 +11,8 @@ class Cell(nn.Module):
     def __init__(
         self,
         cell_config: CellConfiguration,
-        in_planes: int,
-        out_planes: int,
+        in_channels: int,
+        out_channels: int,
         stride: int,
         expansion: int = 4,
     ):
@@ -31,23 +31,28 @@ class Cell(nn.Module):
         for edge in self.edges.values():
             if edge.from_node_id in self.input_node_ids:
                 edge.connected_to_input = True
+                # if it's connected to the input then it must have in_channels channels
+                self.nodes[edge.from_node_id].channels = in_channels
 
             if edge.to_node_id == self.output_node_id:
                 edge.connected_to_output = True
 
         self.expansion = expansion
 
-        self.configure_sizes(in_planes, out_planes, stride=stride)
+        self.configure_sizes(in_channels, out_channels, stride=stride)
 
-    def configure_sizes(self, in_planes, out_planes, **kwargs) -> None:
+    def configure_sizes(self, in_channels, out_channels, **kwargs) -> None:
 
         for edge in self.edges.values():
 
             if edge.connected_to_input:
-                edge.op = edge.op(in_planes, out_planes, **kwargs)
-
+                edge.op = edge.op(in_channels, out_channels, **kwargs)
+                self.nodes[edge.to_node_id].channels = edge.op.out_channels
             else:
-                edge.op = edge.op(out_planes, out_planes, **kwargs)
+                edge.op = edge.op(
+                    self.nodes[edge.from_node_id].channels, out_channels, **kwargs
+                )
+                self.nodes[edge.to_node_id].channels = edge.op.out_channels
 
     def forward(self, x, return_logits=False):
 

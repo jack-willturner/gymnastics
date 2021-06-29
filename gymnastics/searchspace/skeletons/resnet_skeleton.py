@@ -8,7 +8,7 @@ class ResNetCIFARSkeleton(Skeleton):
     def __init__(self, cell_config, num_blocks, num_classes=10, block_expansion=4):
         super(ResNetCIFARSkeleton, self).__init__()
 
-        self.in_planes = 64
+        self.in_channels = 64
 
         self.block_expansion = block_expansion
 
@@ -56,13 +56,14 @@ class ResNetCIFARSkeleton(Skeleton):
             layers.append(
                 Cell(
                     cell_config,
-                    in_planes=self.in_planes,
-                    out_planes=planes,
+                    in_channels=self.in_channels,
+                    out_channels=planes,
                     stride=stride,
                     expansion=self.block_expansion,
                 )
             )
-            self.in_planes = planes * self.block_expansion
+
+            self.in_channels = planes * self.block_expansion
 
         return nn.Sequential(*layers)
 
@@ -86,4 +87,4 @@ class NASBench101Skeleton:
 
 class NASBench201Skeleton:
     def build_with_cell(self, cell_config: CellConfiguration) -> Skeleton:
-        return ResNetCIFARSkeleton(cell_config, [3, 3, 3, 3])
+        return ResNetCIFARSkeleton(cell_config, [1, 1, 1, 1])
