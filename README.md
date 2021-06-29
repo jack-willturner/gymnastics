@@ -91,6 +91,35 @@ Which prints:
 
 ![](figures/best_model.png)
 
+Have a look in `examples/` for more examples.
+
+### NAS-Benchmarks 
+
+If you have designed a new proxy for accuracy and want to test its performance, you can use the benchmarks available in `benchmarks/`.  
+
+The interface to the benchmarks is exactly the same as the above example for `SearchSpace`.
+
+For example,
+
+```python
+import torch
+from gymnastics.benchmarks import NDSSearchSpace
+from gymnastics.proxies import Proxy, NASWOT
+
+search_space = NDSSearchSpace(
+    "~/nds/data/ResNet.json", searchspace="ResNet"
+)
+
+proxy: Proxy = NASWOT()
+minibatch: torch.Tensor = torch.rand((10, 3, 32, 32))
+
+scores = []
+
+for _ in range(10):
+    model = search_space.sample_random_architecture()
+    scores.append(proxy.score(model, minibatch))
+```
+
 ## Roadmap
 
 1. Primary focus is to have (well-tested) support for at least:
@@ -98,7 +127,7 @@ Which prints:
    - [ ] NAS-Bench-201
    - [ ] NAS-Bench-301
    - [ ] NATS-Bench
-   - [ ] NDS
+   - [x] NDS
    - [ ] NAS-Bench-NLP
 2. Next stage will be to add the database connections for each 
 3. Some additional tooling like the grapher 
