@@ -1,18 +1,18 @@
 import random
 import torch.nn as nn
-from nas_201_api import NASBench201API as API
-
-from .XAutoDL.xautodl.models import get_cell_based_tiny_net
 
 from gymnastics.searchspace import SearchSpace
 from gymnastics.searchspace.utils import Dataset, CIFAR10
 from typing import Tuple
 
+from nats_bench import create
+from .nas_201_models import get_cell_based_tiny_net
 
-class NASBench201SearchSpace(SearchSpace):
+
+class NATSBenchSearchSpace(SearchSpace):
     def __init__(self, path_to_api: str = None, dataset: Dataset = CIFAR10) -> None:
         self.dataset = dataset
-        self.api = API(path_to_api, verbose=False)
+        self.api = create(None, "sss", fast_mode=True)
 
     def sample_random_architecture(self) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)

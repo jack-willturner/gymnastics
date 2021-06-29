@@ -1,10 +1,8 @@
 import torch
-
 from gymnastics.benchmarks import NDSSearchSpace
-from gymnastics.proxies import Proxy, NASWOT
 
 
-def test_proxy_naswot():
+def test_nds_resnet():
     searchspace = NDSSearchSpace(
         "/Users/jackturner/work/nds/data/ResNet.json", searchspace="ResNet"
     )
@@ -14,7 +12,4 @@ def test_proxy_naswot():
         y, _ = model(data)
         print(y.size())
 
-    minibatch: torch.Tensor = torch.rand(10, 3, 32, 32)
-
-    proxy: Proxy = NASWOT()
-    proxy.score(model, minibatch)
+        print(searchspace.get_accuracy_of_model(model))

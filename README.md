@@ -99,6 +99,7 @@ Which prints:
    - [ ] NAS-Bench-301
    - [ ] NATS-Bench
    - [ ] NDS
+   - [ ] NAS-Bench-NLP
 2. Next stage will be to add the database connections for each 
 3. Some additional tooling like the grapher 
 4. Add in other proxies/predictors

@@ -7,9 +7,9 @@ import torch.nn as nn
 from gymnastics.searchspace import SearchSpace
 from gymnastics.searchspace.utils import Dataset, CIFAR10
 
-from pycls.models.nas.nas import NetworkImageNet, NetworkCIFAR
-from pycls.models.anynet import AnyNet
-from pycls.models.nas.genotypes import Genotype
+from .pycls.models.nas.nas import NetworkImageNet, NetworkCIFAR
+from .pycls.models.anynet import AnyNet
+from .pycls.models.nas.genotypes import Genotype
 
 
 class ReturnFeatureLayer(torch.nn.Module):
@@ -38,6 +38,7 @@ class NDSSearchSpace(SearchSpace):
         searchspace: str = None,
     ):
         self.dataset = dataset
+        self.searchspace = searchspace
 
         api = json.load(open(path_to_api, "r"))
         try:
@@ -53,6 +54,9 @@ class NDSSearchSpace(SearchSpace):
         model = self.get_network(arch_id)
         model.arch_id = arch_id
         return model
+
+    def get_accuracy_of_model(self, model) -> float:
+        return self.get_final_accuracy(model.arch_id)
 
     def get_network(self, arch_id: str) -> nn.Module:
         netinfo = self.api[arch_id]
@@ -96,9 +100,6 @@ class NDSSearchSpace(SearchSpace):
 
         return_feature_layer(network)
         return network
-
-    def random_arch(self):
-        return random.randint(0, len(self.data) - 1)
 
     def get_final_accuracy(self, arch_id):
         return 100.0 - self.api[arch_id]["test_ep_top1"][-1]

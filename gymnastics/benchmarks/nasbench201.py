@@ -1,17 +1,18 @@
 import random
+import pandas as pd
 import torch.nn as nn
+
+from .nas_201_models import get_cell_based_tiny_net
 
 from gymnastics.searchspace import SearchSpace
 from gymnastics.searchspace.utils import Dataset, CIFAR10
 from typing import Tuple
 
-from nats_bench import create
 
-
-class NATSBenchSearchSpace(SearchSpace):
+class NASBench201SearchSpace(SearchSpace):
     def __init__(self, path_to_api: str = None, dataset: Dataset = CIFAR10) -> None:
         self.dataset = dataset
-        self.api = create(None, "sss", fast_mode=True)
+        self.api = pd.read_pickle(path_to_api)
 
     def sample_random_architecture(self) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
@@ -22,7 +23,7 @@ class NATSBenchSearchSpace(SearchSpace):
     def get_network(self, arch_id: int) -> nn.Module:
         config = self.api.get_net_config(arch_id, "cifar10-valid")
         config["num_classes"] = self.dataset.num_classes
-        network = self.api.get_cell_based_tiny_net(config)
+        network = get_cell_based_tiny_net(config)
         return network
 
     def get_accuracy_of_model(
