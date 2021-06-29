@@ -1,0 +1,3 @@
+[submodule "gymnastics/searchspace/benchmarks/AutoDL-Projects"]
+	path = gymnastics/searchspace/benchmarks/AutoDL-Projects
+	url = https://github.com/D-X-Y/AutoDL-Projects.git
