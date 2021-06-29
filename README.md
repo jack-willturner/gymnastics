@@ -21,6 +21,15 @@
   <i>A "gym" style toolkit for building lightweight NAS systems. I know, the name is awful. </i>
 </p>
 
+## Installation 
+
+```bash
+git clone --recurse-submodules git@github.com:jack-willturner/gymNAStics.git
+cd gymNAStics
+conda env create --file=environment.yml
+conda activate gymnastics
+```
+
 ## Overview
 
 Over the course of the final year of my PhD I worked a lot on Neural Architecture Search (NAS) and built a bunch of tooling to make my life easier. This is an effort to standardise the various features into a single framework and provide a "gym" style toolkit for comparing various algorithms.
@@ -32,9 +41,9 @@ The key use cases for this library are:
 - add new backbones to NAS spaces
 
 The framework revolves around three key classes:
-1. `Model`: 
-2. `Proxy`: 
-3. `SearchSpace`: 
+1. `Model` 
+2. `Proxy`
+3. `SearchSpace`
 
 
 ### Obligatory builder pattern README example

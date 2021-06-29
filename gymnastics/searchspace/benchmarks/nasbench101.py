@@ -7,8 +7,8 @@ from nasbench import api as API
 from nas_101_api.model import Network
 from nas_101_api.model_spec import ModelSpec
 
-from .searchspace import SearchSpace
-from .utils import Dataset, CIFAR10
+from gymnastics.searchspace import SearchSpace
+from gymnastics.searchspace.utils import Dataset, CIFAR10
 
 
 class NASBench101SearchSpace(SearchSpace):
