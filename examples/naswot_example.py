@@ -1,6 +1,7 @@
 from gymnastics.datasets import CIFAR10Loader
 from gymnastics.proxies import NASWOT
-from gymnastics.searchspace import SearchSpace, NASBench201Skeleton, CellSpace
+from gymnastics.searchspace import SearchSpace, Skeleton, CellSpace
+from gymnastics.searchspace.skeletons.resnet_skeleton import ResNetCIFAR
 from gymnastics.searchspace.ops import Conv3x3, Conv1x1, AvgPool2d, Skip, Zeroize
 
 # use the 201 skeleton with the 201 cell space
@@ -8,7 +9,13 @@ search_space = SearchSpace(
     CellSpace(
         ops=[Conv3x3, Conv1x1, AvgPool2d, Skip, Zeroize], num_nodes=4, num_edges=6
     ),
-    NASBench201Skeleton(),
+    Skeleton(
+        skeleton_type=ResNetCIFAR,
+        num_blocks=[5, 5, 5],
+        channels_per_stage=[16, 32, 64],
+        strides_per_stage=[1, 2, 2],
+        block_expansion=1,
+    ),
 )
 
 # create an accuracy predictor

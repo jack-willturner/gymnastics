@@ -1,20 +1,19 @@
-from gymnastics.searchspace.utils import CellConfiguration
 import torch
 import torch.nn as nn
-from gymnastics.searchspace import Cell, Skeleton
+from gymnastics.searchspace import Cell
 
 
-class ResNetCIFARSkeleton(Skeleton):
+class ResNetCIFAR(nn.Module):
     def __init__(
         self,
         cell_config,
         num_blocks,
         num_classes=10,
         channels_per_stage=[64, 128, 256, 512],
-        strides=[1, 2, 2, 2],
+        strides_per_stage=[1, 2, 2, 2],
         block_expansion=4,
     ):
-        super(ResNetCIFARSkeleton, self).__init__()
+        super(ResNetCIFAR, self).__init__()
 
         self.in_channels = channels_per_stage[0]
 
@@ -34,7 +33,7 @@ class ResNetCIFARSkeleton(Skeleton):
                     cell_config,
                     out_channels,
                     num_blocks[i],
-                    stride=strides[i],
+                    stride=strides_per_stage[i],
                     expansion=self.block_expansion,
                 )
             )
@@ -81,19 +80,3 @@ class ResNetCIFARSkeleton(Skeleton):
         out = out.view(out.size(0), -1)
 
         return self.classifier(out)
-
-
-class NASBench101Skeleton:
-    def build_with_cell(self, cell_config: CellConfiguration) -> Skeleton:
-        return ResNetCIFARSkeleton(cell_config, [2, 2, 2, 2])
-
-
-class NASBench201Skeleton:
-    def build_with_cell(self, cell_config: CellConfiguration) -> Skeleton:
-        return ResNetCIFARSkeleton(
-            cell_config,
-            num_blocks=[5, 5, 5],
-            channels_per_stage=[16, 32, 64],
-            strides=[1, 2, 2],
-            block_expansion=1,
-        )
