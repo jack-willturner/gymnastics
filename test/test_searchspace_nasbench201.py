@@ -8,5 +8,7 @@ def test_nasbench201_search_space():
 
     minibatch = torch.rand((10,3,32,32))
     
-    y = model(minibatch)
+    y,_ = model(minibatch)
     print(y.size())
+
+    print(search_space.get_accuracy_of_model(model))

@@ -2,6 +2,7 @@ import random
 import pandas as pd
 import torch.nn as nn
 
+from .nas_201_api import NASBench201API as API
 from .nas_201_models import get_cell_based_tiny_net
 
 from gymnastics.searchspace import SearchSpace
@@ -12,7 +13,7 @@ from typing import Tuple
 class NASBench201SearchSpace(SearchSpace):
     def __init__(self, path_to_api: str = None, dataset: Dataset = CIFAR10) -> None:
         self.dataset = dataset
-        self.api = pd.read_pickle(path_to_api)
+        self.api = API(path_to_api, verbose=False)
 
     def sample_random_architecture(self) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
