@@ -51,12 +51,12 @@ The framework revolves around three key classes:
 
 ### Obligatory builder pattern README example
 
-Using `gymnastics` we can very easily reconstruct NAS spaces (the goal being that it's easy to define new and exciting ones):
+Using `gymnastics` we can very easily reconstruct NAS spaces (the goal being that it's easy to define new and exciting ones).
+
+For example, here's how easy it is to redefine the NATS-Bench / NAS-Bench-201 search space:
 
 ```python
-from gymnastics.datasets import CIFAR10Loader
-from gymnastics.proxies import NASWOT
-from gymnastics.searchspace import SearchSpace, NASBench201Skeleton, CellSpace
+from gymnastics.searchspace import SearchSpace, CellSpace, Skeleton
 from gymnastics.searchspace.ops import Conv3x3, Conv1x1, AvgPool2d, Skip, Zeroize
 
 search_space = SearchSpace(
@@ -72,7 +72,11 @@ search_space = SearchSpace(
     ),
 )
 
+
 # create an accuracy predictor
+from gymnastics.proxies import NASWOT
+from gymnastics.datasets import CIFAR10Loader
+
 proxy = NASWOT()
 dataset = CIFAR10Loader(path="~/datasets/cifar10", download=False)
 
