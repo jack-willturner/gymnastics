@@ -51,41 +51,47 @@ The framework revolves around three key classes:
 
 ### Obligatory builder pattern README example
 
-The goal of the library will be to be able to do stuff like:
+Using `gymnastics` we can very easily reconstruct NAS spaces (the goal being that it's easy to define new and exciting ones):
 
 ```python
-import gymnastics 
-from gymnastics.datasets import CIFAR10
+from gymnastics.datasets import CIFAR10Loader
 from gymnastics.proxies import NASWOT
-from gymnastics.searchspace import SearchSpace, NASBench101Skeleton, CellSpace
- 
-# use the 101 skeleton with the 201 cell space
+from gymnastics.searchspace import SearchSpace, NASBench201Skeleton, CellSpace
+from gymnastics.searchspace.ops import Conv3x3, Conv1x1, AvgPool2d, Skip, Zeroize
+
+# use the 201 skeleton with the 201 cell space
 search_space = SearchSpace(
-  NASBench101Skeleton, 
-  CellSpace(
-        ops=[Conv3x3, Conv1x1, AvgPool2d, Identity, Zeroize], num_nodes=4, num_edges=6
-    )
+    CellSpace(
+        ops=[Conv3x3, Conv1x1, AvgPool2d, Skip, Zeroize], num_nodes=4, num_edges=6
+    ),
+    NASBench201Skeleton(),
 )
 
 # create an accuracy predictor
 proxy = NASWOT()
-train, _ = CIFAR10()
+dataset = CIFAR10Loader(path="~/datasets/cifar10", download=False)
 
-minibatch = train.sample_minibatch()
+minibatch, _ = dataset.sample_minibatch()
 
-best_score = 0.
+best_score = 0.0
 best_model = None
 
-# try out 10 random architectures and save the best one 
+# try out 10 random architectures and save the best one
 for i in range(10):
 
-  model = search_space.sample_random_architecture()
+    model = search_space.sample_random_architecture()
 
-  score = proxy.score(model, minibatch)
+    for name, mod in model.named_modules():
+        print(mod)
+        break
 
-  if score > best_score:
-    best_score = score
-    best_model = model
+    y = model(minibatch)
+
+    score = proxy.score(model, minibatch)
+
+    if score > best_score:
+        best_score = score
+        best_model = model
 
 best_model.show_picture()
 ```
@@ -102,7 +108,7 @@ If you have designed a new proxy for accuracy and want to test its performance, 
 
 The interface to the benchmarks is exactly the same as the above example for `SearchSpace`.
 
-For example,
+For example, here we score networks from the NDS ResNet space using random input data:
 
 ```python
 import torch

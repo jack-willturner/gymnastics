@@ -21,7 +21,7 @@ best_score = 0.0
 best_model = None
 
 # try out 10 random architectures and save the best one
-for i in range(1):
+for i in range(10):
 
     model = search_space.sample_random_architecture()
 
