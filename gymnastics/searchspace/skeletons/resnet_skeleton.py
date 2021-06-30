@@ -92,8 +92,8 @@ class NASBench201Skeleton:
     def build_with_cell(self, cell_config: CellConfiguration) -> Skeleton:
         return ResNetCIFARSkeleton(
             cell_config,
-            [5, 5, 5, 5],
+            num_blocks=[5, 5, 5],
             channels_per_stage=[16, 32, 64],
-            strides=[1, 2, 2, 2],
+            strides=[1, 2, 2],
             block_expansion=1,
         )

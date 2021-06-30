@@ -81,10 +81,6 @@ for i in range(10):
 
     model = search_space.sample_random_architecture()
 
-    for name, mod in model.named_modules():
-        print(mod)
-        break
-
     y = model(minibatch)
 
     score = proxy.score(model, minibatch)
@@ -133,7 +129,7 @@ for _ in range(10):
 
 1. Primary focus is to have (well-tested) support for at least:
    - [ ] NAS-Bench-101
-   - [ ] NAS-Bench-201
+   - [x] NAS-Bench-201
    - [ ] NAS-Bench-301
    - [ ] NATS-Bench
    - [x] NDS
@@ -141,7 +137,7 @@ for _ in range(10):
 2. Next stage will be to add the database connections for each 
 3. Some additional tooling like the grapher, an experiment manager for benchmarks
 4. Add in other proxies/predictors
-5. Training pipeline
+5. Training pipeline (probably using some kind of hyperparameter sweep)
 6. Test out more exotic NAS spaces
 7. Add in standardised NAS implementations
 
