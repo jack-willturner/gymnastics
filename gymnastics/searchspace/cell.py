@@ -13,7 +13,7 @@ class Cell(nn.Module):
         cell_config: CellConfiguration,
         in_channels: int,
         out_channels: int,
-        stride: int,
+        stride: int = 1,
         expansion: int = 4,
     ):
         super(Cell, self).__init__()
@@ -41,17 +41,50 @@ class Cell(nn.Module):
 
         self.configure_sizes(in_channels, out_channels, stride=stride)
 
-    def configure_sizes(self, in_channels, out_channels, **kwargs) -> None:
+    def configure_sizes(self, in_channels: int, out_channels: int, stride: int) -> None:
+        """This function essentially performs a dummy forward pass, configuring
+           the number of input/output channels for each node in the cell.
+           Check the README.md in the searchspace directory for more details.
 
-        for edge in self.edges.values():
+        Args:
+            in_channels (int): Number of input_channels received by the input nodes
+            out_channels (int]): Number of output_channels of the cell *before* being multiplied by expansion
+        """
+
+        out_channels = out_channels * self.expansion
+
+        for edge in sorted(self.edges.values()):
 
             if edge.connected_to_input:
-                edge.op = edge.op(in_channels, out_channels, **kwargs)
+                # if output node already has a number of channels we're going to accumulate
+                if self.nodes[edge.to_node_id].channels is not None:
+                    edge.op = edge.op(
+                        in_channels=in_channels,
+                        out_channels=self.nodes[edge.to_node_id].channels,
+                        stride=stride,
+                    )
+                else:
+                    edge.op = edge.op(
+                        in_channels=in_channels,
+                        out_channels=out_channels,
+                        stride=stride,
+                    )
                 self.nodes[edge.to_node_id].channels = edge.op.out_channels
             else:
-                edge.op = edge.op(
-                    self.nodes[edge.from_node_id].channels, out_channels, **kwargs
-                )
+                # if output node already has a number of channels then we're going to accumulate
+                # so output just needs to match
+                if self.nodes[edge.to_node_id].channels is not None:
+                    edge.op = edge.op(
+                        in_channels=self.nodes[edge.from_node_id].channels,
+                        out_channels=self.nodes[edge.to_node_id].channels,
+                        stride=1,
+                    )
+                else:
+                    edge.op = edge.op(
+                        in_channels=self.nodes[edge.from_node_id].channels,
+                        out_channels=out_channels,
+                        stride=1,
+                    )
                 self.nodes[edge.to_node_id].channels = edge.op.out_channels
 
     def forward(self, x, return_logits=False):
@@ -63,22 +96,15 @@ class Cell(nn.Module):
 
         # accumulate the inputs
         for node_id in self.input_node_ids:
-            self.nodes[node_id].feature_map = x
+            self.nodes[node_id].save(x)
 
         # do the main forward pass of the cell
         for edge in sorted(self.edges.values()):
 
-            if self.nodes[edge.to_node_id].feature_map is not None:
+            self.nodes[edge.to_node_id].save(
+                edge.op(self.nodes[edge.from_node_id].feature_map)
+            )
 
-                self.nodes[edge.to_node_id].feature_map += edge.op(
-                    self.nodes[edge.from_node_id].feature_map
-                )
-            else:
-                self.nodes[edge.to_node_id].feature_map = edge.op(
-                    self.nodes[edge.from_node_id].feature_map
-                )
-
-        # return whatever the output is
         return self.nodes[self.output_node_id].feature_map
 
     def __repr__(self):
@@ -88,9 +114,9 @@ class Cell(nn.Module):
             s = (
                 s
                 + str(edge.from_node_id)
-                + "-"
+                + " -["
                 + str(edge.op)
-                + "->"
+                + "]-> "
                 + str(edge.to_node_id)
                 + "\n"
             )

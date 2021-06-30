@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 
 __all__ = ["CellConfiguration", "Node", "Edges", "Dataset"]
@@ -20,12 +20,35 @@ CIFAR100 = Dataset("CIFAR-100", 100, (3, 32, 32))
 ImageNet16_120 = Dataset("ImageNet-16-120", 10, (3, 32, 32))
 
 
-@dataclass(unsafe_hash=True)
+def combine_by_addition(feature_map_a, feature_map_b) -> torch.Tensor:
+    return torch.add(feature_map_a, feature_map_b)
+
+
+def combine_by_concatenation(feature_map_a, feature_map_b) -> torch.Tensor:
+    return torch.concat([feature_map_a, feature_map_b], axis=1)
+
+
 class Node:
-    id: int
-    channels: Optional[int] = None
-    feature_map: Optional[torch.Tensor] = None
-    label: Optional[str] = None
+    def __init__(
+        self,
+        id: int,
+        channels: int = None,
+        feature_map: Optional[torch.Tensor] = None,
+        label: Optional[str] = None,
+        combine: Optional[Callable] = combine_by_addition,
+    ):
+
+        self.id = id
+        self.channels = channels
+        self.feature_map = feature_map
+        self.label = label
+        self.combine = combine
+
+    def save(self, feature_map):
+        if self.feature_map is None:
+            self.feature_map = feature_map
+        else:
+            self.feature_map = self.combine(feature_map, self.feature_map)
 
 
 @dataclass(unsafe_hash=True, order=True)

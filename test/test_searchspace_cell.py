@@ -28,7 +28,6 @@ def test_simple_celltype():
             adjacency_matrix=None,
         ),
         in_channels=3,
-        hidden_planes=64,
         out_channels=64,
         stride=1,
     )

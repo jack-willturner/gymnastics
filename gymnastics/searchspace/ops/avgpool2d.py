@@ -1,4 +1,5 @@
 import torch.nn as nn
+from .conv1x1 import Conv1x1
 
 
 class AvgPool2d(nn.Module):
@@ -12,9 +13,13 @@ class AvgPool2d(nn.Module):
     ):
         super(AvgPool2d, self).__init__()
 
-        # register that channels won't change
         self.in_channels = in_channels
-        self.out_channels = in_channels
+        self.out_channels = out_channels
+
+        if in_channels != out_channels:
+            self.projection = Conv1x1(in_channels, out_channels)
+        else:
+            self.projection = nn.Identity()
 
         self.avgpool = nn.AvgPool2d(
             kernel_size=kernel_size,
@@ -23,10 +28,10 @@ class AvgPool2d(nn.Module):
         )
 
     def forward(self, x):
-        return self.avgpool(x)
+        return self.avgpool(self.projection(x))
 
     def __str__(self):
-        return f"AvgPool2d({self.avgpool.kernel_size})"
+        return f"AvgPool2d({self.avgpool.kernel_size}, stride={self.avgpool.stride}, padding={self.avgpool.padding})"
 
     def __repr__(self):
-        return f"AvgPool2d({self.avgpool.kernel_size})"
+        return f"AvgPool2d({self.avgpool.kernel_size}, stride={self.avgpool.stride}, padding={self.avgpool.padding})"

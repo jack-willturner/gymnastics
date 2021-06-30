@@ -29,7 +29,7 @@ class Conv1x1(nn.Module):
         return self.conv(x)
 
     def __str__(self):
-        return f"Conv1x1({self.conv.in_channels} -> {self.conv.out_channels})"
+        return f"Conv1x1({self.conv.in_channels}, {self.conv.out_channels}, stride={self.conv.stride})"
 
     def __repr__(self):
-        return f"Conv1x1({self.conv.in_channels} -> {self.conv.out_channels})"
+        return f"Conv1x1({self.conv.in_channels}, {self.conv.out_channels}, stride={self.conv.stride})"

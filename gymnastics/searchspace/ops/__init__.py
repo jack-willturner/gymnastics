@@ -12,6 +12,7 @@ from .lambdaconv import LambdaConv
 from .mixconv import MixConv
 from .octaveconv import OctConv
 from .shiftconv import ShiftConv
+from .skip import Skip
 
 
 __all__ = [
@@ -27,4 +28,5 @@ __all__ = [
     "MixConv",
     "OctConv",
     "ShiftConv",
+    "Skip",
 ]

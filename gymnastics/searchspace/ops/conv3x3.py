@@ -26,12 +26,10 @@ class Conv3x3(nn.Module):
         )
 
     def forward(self, x):
-        self.conv.in_channels = x.size()
-
         return self.conv(x)
 
     def __str__(self):
-        return f"Conv3x3({self.conv.in_channels} -> {self.conv.out_channels})"
+        return f"Conv3x3({self.conv.in_channels}, {self.conv.out_channels}, stride={self.conv.stride})"
 
     def __repr__(self):
-        return f"Conv3x3({self.conv.in_channels} -> {self.conv.out_channels})"
+        return f"Conv1x1({self.conv.in_channels}, {self.conv.out_channels}, stride={self.conv.stride})"
