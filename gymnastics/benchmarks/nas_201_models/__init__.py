@@ -19,7 +19,7 @@ __all__ = [
 ]
 
 # useful modules
-from config_utils import dict2config
+from gymnastics.benchmarks.config_utils import dict2config
 from .SharedUtils import change_key
 from .cell_searchs import CellStructure, CellArchitectures
 

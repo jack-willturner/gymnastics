@@ -4,8 +4,8 @@ import itertools
 import torch.nn as nn
 
 from nasbench import api as API
-from nas_101_api.model import Network
-from nas_101_api.model_spec import ModelSpec
+from .nas_101_api.model import Network
+from .nas_101_api.model_spec import ModelSpec
 
 from gymnastics.searchspace import SearchSpace
 from gymnastics.searchspace.utils import Dataset, CIFAR10

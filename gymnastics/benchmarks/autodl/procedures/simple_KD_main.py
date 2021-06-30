@@ -5,8 +5,8 @@ import os, sys, time, torch
 import torch.nn.functional as F
 
 # our modules
-from log_utils import AverageMeter, time_string
-from utils import obtain_accuracy
+from gymnastics.benchmarks.autodl.log_utils import AverageMeter, time_string
+from gymnastics.benchmarks.autodl.utils import obtain_accuracy
 
 
 def simple_KD_train(

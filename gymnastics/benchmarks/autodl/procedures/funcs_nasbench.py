@@ -3,12 +3,15 @@
 #####################################################
 import os, time, copy, torch, pathlib
 
-import datasets
-from config_utils import load_config
-from autodl.procedures import prepare_seed, get_optim_scheduler
-from autodl.utils import get_model_infos, obtain_accuracy
-from autodl.log_utils import AverageMeter, time_string, convert_secs2time
-from models import get_cell_based_tiny_net
+from gymnastics.benchmarks.config_utils import load_config
+from gymnastics.benchmarks.autodl.procedures import prepare_seed, get_optim_scheduler
+from gymnastics.benchmarks.autodl.utils import get_model_infos, obtain_accuracy
+from gymnastics.benchmarks.autodl.log_utils import (
+    AverageMeter,
+    time_string,
+    convert_secs2time,
+)
+from gymnastics.benchmarks.nas_201_models import get_cell_based_tiny_net
 
 
 __all__ = ["evaluate_for_seed", "pure_evaluate", "get_nas_bench_loaders"]

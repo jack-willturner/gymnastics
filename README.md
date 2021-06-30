@@ -18,17 +18,20 @@
 </p>
 
 <p align="center">
-  <i>A "gym" style toolkit for building lightweight NAS systems. I know, the name is awful. </i>
+  <i>A "gym" style toolkit for building lightweight Neural Architecture Search systems. I know, the name is awful. </i>
 </p>
 
 ## Installation 
 
 ```bash
-git clone --recurse-submodules git@github.com:jack-willturner/gymNAStics.git
+git clone git@github.com:jack-willturner/gymNAStics.git
 cd gymNAStics
 conda env create --file=environment.yml
 conda activate gymnastics
 ```
+
+If you want to use NAS-Bench-101, follow the instructions [here](https://github.com/google-research/nasbench).
+
 
 ## Overview
 
@@ -130,10 +133,11 @@ for _ in range(10):
    - [x] NDS
    - [ ] NAS-Bench-NLP
 2. Next stage will be to add the database connections for each 
-3. Some additional tooling like the grapher 
+3. Some additional tooling like the grapher, an experiment manager for benchmarks
 4. Add in other proxies/predictors
 5. Training pipeline
-6. Add in standardised NAS implementations
+6. Test out more exotic NAS spaces
+7. Add in standardised NAS implementations
 
 ## Additional supported operations
 

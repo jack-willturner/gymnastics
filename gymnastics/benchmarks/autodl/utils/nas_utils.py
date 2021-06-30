@@ -5,8 +5,8 @@ from copy import deepcopy
 import torch.nn as nn
 
 # from utils  import obtain_accuracy
-from models import CellStructure
-from log_utils import time_string
+from gymnastics.benchmarks.nas_201_models import CellStructure
+from gymnastics.benchmarks.autodl.log_utils import time_string
 
 
 def evaluate_one_shot(model, xloader, api, cal_mode, seed=111):
