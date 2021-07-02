@@ -23,7 +23,11 @@ class Dataset(ABC):
             path, val_split_percentage, seed, download
         )
 
-        _ = self.get_data_loaders(train_set, val_set, test_set)
+        train_loader, val_loader, test_loader = self.get_data_loaders(
+            train_set, val_set, test_set
+        )
+
+        return train_loader, val_loader, test_loader
 
     @abstractmethod
     def set_transforms(self) -> None:

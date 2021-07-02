@@ -32,10 +32,6 @@ for i in range(10):
 
     model = search_space.sample_random_architecture()
 
-    for name, mod in model.named_modules():
-        print(mod)
-        break
-
     y = model(minibatch)
 
     score = proxy.score(model, minibatch)

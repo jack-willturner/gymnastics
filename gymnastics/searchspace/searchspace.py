@@ -1,9 +1,16 @@
+from gymnastics.searchspace import CellSpace, Skeleton
 import torch.nn as nn
 from .utils import CellConfiguration, is_valid_cell
 
 
 class SearchSpace:
-    def __init__(self, cell_space, skeleton_generation_function):
+    def __init__(
+        self,
+        cell_space: CellSpace,
+        skeleton_generation_function: Skeleton,
+        name: str = "CustomSearchSpace",
+    ):
+        self.name = name
         self.cell_space = cell_space
         self.skeleton_builder = skeleton_generation_function
 
@@ -25,6 +32,10 @@ class SearchSpace:
             )
 
         return self.skeleton_builder.build_with_cell(cell_config)
+
+    def generate_name_of_searchspace(self) -> str:
+        # TODO find a sensible way to generate these names
+        return self.name
 
     def __iter__(self):
         raise NotImplementedError
