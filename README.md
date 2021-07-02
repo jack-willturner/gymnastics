@@ -1,4 +1,4 @@
-![gymNAStics](figures/capybara.png)
+![gymnastics](figures/capybara.png)
 
 <p align="center">
   <!-- license -->
@@ -24,10 +24,7 @@
 ## Installation 
 
 ```bash
-git clone git@github.com:jack-willturner/gymNAStics.git
-cd gymNAStics
-conda env create --file=environment.yml
-conda activate gymnastics
+pip install gymnastics
 ```
 
 If you want to use NAS-Bench-101, follow the instructions [here](https://github.com/google-research/nasbench).
