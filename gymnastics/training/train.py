@@ -199,6 +199,8 @@ def full_training_run(model: nn.Module, search_space_name: str = None):
             filename=f"{search_space_name}_{args.checkpoint_name}_{args.seed}.t7",
         )
 
+    return acc1
+
 
 def train(train_loader, model, criterion, optimizer, epoch, args):
     batch_time = AverageMeter("Time", ":6.3f")

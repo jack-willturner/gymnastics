@@ -1,4 +1,0 @@
-benchmark: "NAS-Bench-201"
-num_trials: 500
-num_samples: 100
-proxy: NASWOT

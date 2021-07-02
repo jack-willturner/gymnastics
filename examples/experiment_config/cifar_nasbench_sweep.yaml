@@ -1,0 +1,16 @@
+benchmarks:
+  nasbench101:
+    name: "NAS-Bench-101"
+    dataset: "CIFAR-10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/"
+  nasbench201:
+    name: "NAS-Bench-201"
+    dataset: "CIFAR10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/"
+  natsbench:
+    name: "NATS-Bench"
+    dataset: "CIFAR10"
+    path_to_api: "/disk/scratch_ssd/nasbench201/"
+num_trials: 500
+num_samples: 100
+proxy: NASWOT
