@@ -131,33 +131,18 @@ for _ in range(10):
     scores.append(proxy.score(model, minibatch))
 ```
 
-## Roadmap
-
-1. Primary focus is to have (well-tested) support for at least:
-   - [ ] NAS-Bench-101
-   - [x] NAS-Bench-201
-   - [ ] NAS-Bench-301
-   - [ ] NATS-Bench
-   - [x] NDS
-   - [ ] NAS-Bench-NLP
-2. Next stage will be to add the database connections for each 
-3. Some additional tooling like the grapher, an experiment manager for benchmarks
-4. Add in other proxies/predictors
-5. Training pipeline (probably using some kind of hyperparameter sweep)
-6. Test out more exotic NAS spaces
-7. Add in standardised NAS implementations
-
 ## Additional supported operations
 
-| Done | Tested | Op                  | Paper                                         | Notes                                                               |
-| ---- | ------ | ------------------- | --------------------------------------------- | ------------------------------------------------------------------- |
-| [x]  |        | conv                | -                                             | params: kernel size                                                 |
-| [x]  |        | gconv               | AlexNet                                       | + params: group                                                     |
-| [x]  |        | depthwise separable | [pdf](https://arxiv.org/pdf/1610.02357v3.pdf) |                                                                     |
-| [x]  |        | mixconv             | [pdf](https://arxiv.org/pdf/1907.09595.pdf)   |                                                                     |
-| [x]  |        | octaveconv          | [pdf](https://arxiv.org/pdf/1904.05049.pdf)   | Don't have a sensible way to include this as a single operation yet |
-| [ ]  |        | shift               | [pdf](https://arxiv.org/pdf/1711.08141.pdf)   |                                                                     |
-| [ ]  |        | ViT                 |                                               |                                                                     |
-| [ ]  |        | Fused-MBConv        | [pdf](https://arxiv.org/pdf/2104.00298.pdf)   |                                                                     |
-| [x]  |        | Lambda              | [pdf](https://arxiv.org/pdf/2102.08602.pdf)   |                                                                     |
-| [ ]  |        |                     |                                               |                                                                     |
+In addition to the standard NAS operations we include a few more exotic ones, all in various states of completion:
+
+| Op                  | Paper                                         | Notes                                                               |
+| ------------------- | --------------------------------------------- | ------------------------------------------------------------------- |
+| conv                | -                                             | params: kernel size                                                 |
+| gconv               | -                                             | + params: group                                                     |
+| depthwise separable | [pdf](https://arxiv.org/pdf/1610.02357v3.pdf) | + no extra params needed                                            |
+| mixconv             | [pdf](https://arxiv.org/pdf/1907.09595.pdf)   | + params: needs a list of kernel_sizes                              |
+| octaveconv          | [pdf](https://arxiv.org/pdf/1904.05049.pdf)   | Don't have a sensible way to include this as a single operation yet |
+| shift               | [pdf](https://arxiv.org/pdf/1711.08141.pdf)   | no params needed                                                    |
+| ViT                 | [pdf](https://arxiv.org/pdf/2010.11929.pdf)   |                                                                     |
+| Fused-MBConv        | [pdf](https://arxiv.org/pdf/2104.00298.pdf)   |                                                                     |
+| Lambda              | [pdf](https://arxiv.org/pdf/2102.08602.pdf)   |                                                                     |
