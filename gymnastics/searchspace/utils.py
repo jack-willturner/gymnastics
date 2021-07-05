@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Tuple
 
 
-__all__ = ["CellConfiguration", "Node", "Edges", "Dataset"]
+__all__ = ["CellConfiguration", "Node", "Edge", "Dataset"]
 
 
 @dataclass

@@ -59,7 +59,8 @@ if __name__ == "main":
     # experimental setup
     proxy: Proxy = NASWOT()
     search_space: SearchSpace = NASBench201SearchSpace(path_to_api=args.path_to_api)
-    train_loader, _ = CIFAR10Loader(path=args.path_to_data)
+    dataset = CIFAR10Loader(path=args.path_to_data)
+    train_loader, _, _ = dataset.get_data_loaders()
 
     model = get_best_model_using_proxy(
         proxy, search_space, train_loader, args.num_samples

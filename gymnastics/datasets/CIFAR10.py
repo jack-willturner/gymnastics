@@ -16,9 +16,16 @@ class CIFAR10Loader(Dataset):
         seed: int = 1,
         download: bool = False,
     ) -> None:
-        super().__init__(
-            path, batch_size, num_workers, val_split_percentage, seed, download
+        self.batch_size: int = batch_size
+        self.num_workers: int = num_workers
+
+        self.set_transforms()
+
+        train_set, val_set, test_set, _ = self.get_data_sets(
+            path, val_split_percentage, seed, download
         )
+
+        self.get_data_loaders(train_set, val_set, test_set)
 
     def set_transforms(self) -> None:
         normalize = transforms.Normalize(
