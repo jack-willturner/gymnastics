@@ -17,10 +17,9 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GPLv3",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "gymnastics"},
-    packages=setuptools.find_packages(where="gymnastics"),
+    packages=setuptools.find_packages(),
     python_requires=">=3.8",
 )
