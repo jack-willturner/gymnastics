@@ -131,3 +131,7 @@ dmypy.json
 
 .vscode
 settings.json
+
+# checkpoints
+*.tar
+*.t7

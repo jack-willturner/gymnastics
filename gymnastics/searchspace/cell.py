@@ -40,6 +40,19 @@ class Cell(nn.Module):
         self.expansion = expansion
 
         self.configure_sizes(in_channels, out_channels, stride=stride)
+        self.register_modules()
+
+    def register_modules(self):
+        """This function registers a list of modules with PyTorch so that 
+           each layer can be automatically moved between CPU/GPU. 
+           It has to be called after configure_sizes, otherwise the layers
+           won't exist yet.
+        """
+        module_list = []
+        for edge_num, edge in self.edges.items():
+            module_list.append(edge.op)
+
+        self.module_list = nn.ModuleList(module_list)
 
     def configure_sizes(self, in_channels: int, out_channels: int, stride: int) -> None:
         """This function essentially performs a dummy forward pass, configuring
