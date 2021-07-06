@@ -2,15 +2,15 @@ benchmarks:
   nasbench101:
     name: "NAS-Bench-101"
     dataset: "CIFAR-10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/"
+    path_to_api: "/disk/scratch_ssd/nasbench201/nasbench_only108.tfrecord"
   nasbench201:
     name: "NAS-Bench-201"
     dataset: "CIFAR10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/"
+    path_to_api: "/disk/scratch_ssd/nasbench201/NASBench_v1_1.pth"
   natsbench:
     name: "NATS-Bench"
     dataset: "CIFAR10"
-    path_to_api: "/disk/scratch_ssd/nasbench201/"
+    path_to_api: "/disk/scratch_ssd/nasbench201/NATS-tss-v1_0-3ffb9.pickle.pbz2"
 num_trials: 500
 num_samples: 100
 proxy: NASWOT

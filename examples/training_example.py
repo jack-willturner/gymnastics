@@ -5,8 +5,8 @@ import torch.nn as nn
 import yaml
 
 from gymnastics.searchspace.searchspace import SearchSpace
-from gymnastics.datasets import CIFAR10Loader
-from gymnastics.benchmarks import NASBench201SearchSpace
+from gymnastics.datasets import get_data_loaders
+from gymnastics.benchmarks import get_benchmark
 from gymnastics.proxies import NASWOT, Proxy
 from gymnastics.training import full_training_run
 
@@ -58,9 +58,10 @@ if __name__ == "main":
 
     # experimental setup
     proxy: Proxy = NASWOT()
-    search_space: SearchSpace = NASBench201SearchSpace(path_to_api=args.path_to_api)
-    dataset = CIFAR10Loader(path=args.path_to_data)
-    train_loader, _, _ = dataset.get_data_loaders()
+    search_space: SearchSpace = get_benchmark(
+        "NASBench201", path_to_api=args.path_to_api
+    )
+    train_loader, _, _ = get_data_loaders("CIFAR10", path_to_dataset=args.path_to_data)
 
     model = get_best_model_using_proxy(
         proxy, search_space, train_loader, args.num_samples

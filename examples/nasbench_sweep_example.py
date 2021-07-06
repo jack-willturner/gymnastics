@@ -1,13 +1,15 @@
+import yaml
 import argparse
-import os
+
+import pandas as pd
+from tabulate import tabulate
+
 import torch
 import torch.nn as nn
 
-from gymnastics.searchspace.searchspace import SearchSpace
-from gymnastics.datasets import CIFAR10Loader
-from gymnastics.benchmarks import NASBench201SearchSpace
-from gymnastics.proxies import NASWOT, Proxy
-from sacred import Experiment
+from gymnastics.datasets import get_data_loaders
+from gymnastics.benchmarks import get_benchmark
+from gymnastics.proxies import get_proxy
 
 parser = argparse.ArgumentParser(
     description="Evaluate a proxy on various NAS-Benchmarks"
@@ -33,29 +35,37 @@ parser.add_argument(
     help="Needs to contain: n_trials, n_samples, proxy",
 )
 
+parser.add_argument(
+    "--path_to_results",
+    default="results/",
+    type=str,
+    help="The folder in which I should store the results file(s)",
+)
+
 args = parser.parse_args()
 
-experiment_name = os.path.split("experiment_config/nasbench_201.yaml")[1].split(".")[0]
+results = []
 
-ex = Experiment(experiment_name)
-ex.add_config(args.experiment_config)
+with open(args.experiment_config, "r") as file:
+    experiment_config = yaml.safe_load(file)
 
+proxy = get_proxy(experiment_config["proxy"])
 
-@ex.automain
-def run_experiment():
+for benchmark in experiment_config["benchmarks"]:
 
-    accuracies = []
+    search_space = get_benchmark(
+        benchmark["name"], path_to_api=benchmark["path_to_api"]
+    )
 
-    for _ in range(args.num_trials):
-        search_space: SearchSpace = NASBench201SearchSpace(path_to_api=args.path_to_api)
+    train_loader, _, _ = get_data_loaders(
+        benchmark["dataset"], benchmark["path_to_dataset"]
+    )
 
-        train_loader, _ = CIFAR10Loader(path=args.path_to_data)
-
-        proxy: Proxy = NASWOT()
+    for _ in range(experiment_config["num_trials"]):
 
         best_score: float = 0.0
 
-        for _ in range(args.num_samples):
+        for _ in range(experiment_config["num_samples"]):
             minibatch: torch.Tensor = train_loader.sample_minibatch()
             model: nn.Module = search_space.sample_random_architecture()
 
@@ -65,6 +75,31 @@ def run_experiment():
                 best_score = score
                 best_model = model
 
-        accuracies.append(search_space.get_accuracy_of_model(best_model))
+        results.append(
+            [
+                benchmark["name"],
+                benchmark["dataset"],
+                best_model.arch_id,
+                experiment_config["proxy"],
+                experiment_config["num_samples"],
+                score,
+                search_space.get_accuracy_of_model(best_model),
+            ]
+        )
 
-    return accuracies
+results = pd.DataFrame(
+    results,
+    columns=[
+        "Benchmark",
+        "Dataset",
+        "Arch ID",
+        "Proxy",
+        "Number of Samples",
+        "Score",
+        "Accuracy",
+    ],
+)
+
+print(tabulate(results, headers="keys", tablefmt="psql"))
+
+results.to_pickle(f"{args.path_to_results}/{args.experiment_config}.pd")
