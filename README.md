@@ -146,3 +146,11 @@ In addition to the standard NAS operations we include a few more exotic ones, al
 | ViT                 | [pdf](https://arxiv.org/pdf/2010.11929.pdf)   |                                                                     |
 | Fused-MBConv        | [pdf](https://arxiv.org/pdf/2104.00298.pdf)   |                                                                     |
 | Lambda              | [pdf](https://arxiv.org/pdf/2102.08602.pdf)   |                                                                     |
+
+## Alternatives
+
+There are a few alternatives to this library:
+- [NASzilla](https://github.com/naszilla/naszilla)
+- [NASlib](https://github.com/automl/NASLib)
+- [AutoDL](https://github.com/D-X-Y/AutoDL-Projects)
+- [AutoPyTorch](https://github.com/automl/Auto-PyTorch)
