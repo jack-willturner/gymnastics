@@ -1,7 +1,7 @@
 from .cell import Cell
 from .cellspace import CellSpace, NASBench101CellSpace, NASBench201CellSpace
 from .utils import Node, Edge, CellConfiguration
-from .skeleton import Skeleton, NASBench201Skeleton
+from .skeleton import Skeleton
 from .searchspace import SearchSpace
 
 __all__ = [
@@ -14,5 +14,4 @@ __all__ = [
     "Skeleton",
     "NASBench101CellSpace",
     "NASBench201CellSpace",
-    "NASBench201Skeleton",
 ]

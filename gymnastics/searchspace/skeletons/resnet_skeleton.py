@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from gymnastics.searchspace import Cell
 
+__all__ = ["ResNetCIFAR"]
 
 class ResNetCIFAR(nn.Module):
     def __init__(
@@ -80,3 +81,4 @@ class ResNetCIFAR(nn.Module):
         out = out.view(out.size(0), -1)
 
         return self.classifier(out)
+

@@ -9,7 +9,6 @@ from gymnastics.searchspace import SearchSpace
 from gymnastics.searchspace.utils import Dataset, CIFAR10
 from typing import Tuple
 
-
 class NASBench201SearchSpace(SearchSpace):
     def __init__(self, path_to_api: str = None, dataset: Dataset = CIFAR10) -> None:
         self.dataset = dataset

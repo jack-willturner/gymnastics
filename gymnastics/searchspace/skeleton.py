@@ -1,12 +1,11 @@
 import torch.nn as nn
-from gymnastics.searchspace.skeletons.resnet_skeleton import ResNetCIFAR
 from gymnastics.searchspace.cellspace import CellConfiguration
 
 
 class Skeleton(nn.Module):
     def __init__(
         self,
-        skeleton_type=ResNetCIFAR,
+        skeleton_type=None,
         num_blocks=[2, 2, 2, 2],
         channels_per_stage=[64, 128, 256, 512],
         strides_per_stage=[1, 2, 2, 2],
@@ -30,13 +29,3 @@ class Skeleton(nn.Module):
 
     def show_picture(self):
         raise NotImplementedError
-
-
-def NASBench201Skeleton() -> Skeleton:
-    return Skeleton(
-        skeleton_type=ResNetCIFAR,
-        num_blocks=[5, 5, 5],
-        channels_per_stage=[16, 32, 64],
-        strides_per_stage=[1, 2, 2],
-        block_expansion=1,
-    )

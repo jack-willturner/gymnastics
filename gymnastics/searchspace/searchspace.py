@@ -1,5 +1,5 @@
-from gymnastics.searchspace import CellSpace, Skeleton
 import torch.nn as nn
+from gymnastics.searchspace import CellSpace, Skeleton
 from .utils import CellConfiguration, is_valid_cell
 
 
