@@ -20,7 +20,7 @@ class Dataset(ABC):
     ]:
         raise NotImplementedError
 
-    def get_data_loaders(self, train_set, val_set, test_set):
+    def set_data_loaders(self, train_set, val_set, test_set):
 
         self.train_loader = torch.utils.data.DataLoader(
             train_set,
@@ -46,6 +46,7 @@ class Dataset(ABC):
             pin_memory=True,
         )
 
+    def get_data_loaders(self):
         return self.train_loader, self.val_loader, self.test_loader
 
     def sample_minibatch(self, train: bool = True) -> Tuple[torch.Tensor, torch.Tensor]:

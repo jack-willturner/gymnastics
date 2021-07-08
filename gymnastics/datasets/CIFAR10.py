@@ -25,7 +25,7 @@ class CIFAR10Loader(Dataset):
             path, val_split_percentage, seed, download
         )
 
-        self.get_data_loaders(train_set, val_set, test_set)
+        self.set_data_loaders(train_set, val_set, test_set)
 
     def set_transforms(self) -> None:
         normalize = transforms.Normalize(
