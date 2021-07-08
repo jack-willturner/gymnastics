@@ -23,8 +23,8 @@ class NASWOT(Proxy):
                 K2 = (1.0 - x) @ (1.0 - x.t())
 
                 model.K = model.K + K.cpu().numpy() + K2.cpu().numpy()
-            except Exception as e:
-                print(e)
+            except Exception:
+                pass
 
         def counting_backward_hook(module, input, output):
             module.visited_backwards = True
@@ -34,11 +34,24 @@ class NASWOT(Proxy):
                     module.register_forward_hook(counting_forward_hook)
                     module.register_backward_hook(counting_backward_hook)
 
+        for _, module in model.named_modules():
+            if "ReLU" in str(type(module)):
+                module.register_forward_hook(counting_forward_hook)
+                module.register_backward_hook(counting_backward_hook)
+
+        # attach the forward/backward hooks
+        model.zero_grad()
+        y, _ = model(minibatch)
+        y.backward(torch.ones_like(y))
+
+        # push the minibatch through
         _ = model(minibatch)
+
         return model.K
 
     def score(self, model: nn.Module, minibatch: torch.Tensor) -> float:
         K = self.get_K(model, minibatch)
+        print(K)
         _, logdet = np.linalg.slogdet(K)
 
         return logdet

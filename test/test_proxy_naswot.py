@@ -17,4 +17,6 @@ def test_proxy_naswot():
     minibatch: torch.Tensor = torch.rand(10, 3, 32, 32)
 
     proxy: Proxy = NASWOT()
-    proxy.score(model, minibatch)
+    score = proxy.score(model, minibatch)
+
+    assert score > 0
