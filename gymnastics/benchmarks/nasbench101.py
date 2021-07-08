@@ -36,9 +36,9 @@ class NASBench101SearchSpace(SearchSpace):
     def get_accuracy_of_model(self, model: nn.Module) -> float:
         return self.get_accuracy(model.arch_id)
 
-    def get_network(self, arch_id: int) -> nn.Module:
+    def get_network(self, arch_id: int, num_labels: int = 1) -> nn.Module:
         spec = self.get_spec(arch_id)
-        network = Network(spec, self.args)
+        network = Network(spec, num_labels=num_labels)
         return network
 
     def get_spec(self, unique_hash):
