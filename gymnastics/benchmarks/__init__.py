@@ -1,6 +1,3 @@
-from .nasbench101 import NASBench101SearchSpace
-from .nasbench201 import NASBench201SearchSpace
-from .natsbench import NATSBenchSearchSpace
 from .nds import NDSSearchSpace
 
 __all__ = ["get_benchmark"]
@@ -9,10 +6,16 @@ __all__ = ["get_benchmark"]
 def get_benchmark(benchmark_name: str, path_to_api: str):
 
     if benchmark_name == "NASBench101":
+        from .nasbench101 import NASBench101SearchSpace
+
         return NASBench101SearchSpace(path_to_api=path_to_api)
     elif benchmark_name == "NASBench201":
+        from .nasbench201 import NASBench201SearchSpace
+
         return NASBench201SearchSpace(path_to_api=path_to_api)
     elif benchmark_name == "NATSBench":
+        from .natsbench import NATSBenchSearchSpace
+
         return NATSBenchSearchSpace(path_to_api=path_to_api)
     elif benchmark_name == "NDS_resnet":
         return NDSSearchSpace("ResNet")
