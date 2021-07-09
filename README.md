@@ -5,6 +5,10 @@
   <a href="https://tldrlegal.com/license/apache-license-2.0-%28apache-2.0%29">
       <img src="https://img.shields.io/github/license/jack-willturner/gymNAStics" alt="License" height="20">
   </a>
+  <!-- pypi version --> 
+  <a href="https://pypi.org/project/gymnastics/">
+    <img src="https://img.shields.io/pypi/v/gymnastics">
+  </a>
   <!-- CI status -->
   <a href="">
     <img src="https://img.shields.io/github/workflow/status/jack-willturner/gymNAStics/CI" alt="CI status" height="20">
@@ -23,8 +27,16 @@
 
 ## Installation 
 
+To install the latest release version:
 ```bash
 pip install gymnastics
+```
+
+Or to install from source (probably more up-to-date!): 
+```
+git clone git@github.com:jack-willturner/gymnastics.git
+cd gymnastics
+pip install -e . 
 ```
 
 If you want to use NAS-Bench-101, follow the instructions [here](https://github.com/google-research/nasbench).
@@ -147,9 +159,9 @@ In addition to the standard NAS operations we include a few more exotic ones, al
 | Fused-MBConv        | [pdf](https://arxiv.org/pdf/2104.00298.pdf)   |                                                                     |
 | Lambda              | [pdf](https://arxiv.org/pdf/2102.08602.pdf)   |                                                                     |
 
-## Alternatives
+## Alternatives
 
-There are a few alternatives to this library:
+If you are looking for alternatives to this library, there are a few which I will try to keep a list of here:
 - [NASzilla](https://github.com/naszilla/naszilla)
 - [NASlib](https://github.com/automl/NASLib)
 - [AutoDL](https://github.com/D-X-Y/AutoDL-Projects)
