@@ -57,6 +57,12 @@ The framework revolves around three key classes:
 2. `Proxy`
 3. `SearchSpace`
 
+### The anatomy of NAS
+
+![](figures/anatomy_of_nas.png)
+
+We can break down NAS spaces into three separate components: the skeleton or backbone of the network, the possible cells that can fill the skeletons, and the possible operations that can fill the cells. NAS papers and benchmarks all define their own versions of each of these variables. Our goal here is to de-couple the "search strategy" from the "search space" by allowing NAS designers to test out their technique on many NAS search spaces very easily. Specifically, the goal is the provide an easy interface for defining each column of the picture above.
+
 
 ### Obligatory builder pattern README example
 
