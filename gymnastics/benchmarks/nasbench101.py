@@ -16,9 +16,10 @@ class NASBench101SearchSpace(SearchSpace):
         self.dataset = dataset
         self.api = API(path_to_api, verbose=False)
 
-    def sample_random_architecture(self) -> nn.Module:
+    def sample_random_architecture(self, single_output=False) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
-        model = self.get_network(arch_id)
+        num_labels = 1 if single_output else self.dataset.num_classes
+        model = self.get_network(arch_id, num_labels)
         model.arch_id = arch_id
         return model
 

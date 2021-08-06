@@ -22,7 +22,7 @@ class NASWOT(Proxy):
                 K = x @ x.t()
                 K2 = (1.0 - x) @ (1.0 - x.t())
 
-                model.K = model.K + K.cpu().numpy() + K2.cpu().numpy()
+                model.K = model.K + K + K2
             except Exception:
                 pass
 
@@ -51,7 +51,6 @@ class NASWOT(Proxy):
 
     def score(self, model: nn.Module, minibatch: torch.Tensor) -> float:
         K = self.get_K(model, minibatch)
-        print(K)
-        _, logdet = np.linalg.slogdet(K)
+        logdet = torch.logdet(K)
 
         return logdet

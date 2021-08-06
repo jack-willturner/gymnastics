@@ -14,15 +14,17 @@ class NASBench201SearchSpace(SearchSpace):
         self.dataset = dataset
         self.api = API(path_to_api, verbose=False)
 
-    def sample_random_architecture(self) -> nn.Module:
+    def sample_random_architecture(self, single_output=False) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
-        model = self.get_network(arch_id)
+
+        num_classes = 1 if single_output else self.dataset.num_classes
+        model = self.get_network(arch_id, num_classes)
         model.arch_id = arch_id
         return model
 
-    def get_network(self, arch_id: int) -> nn.Module:
+    def get_network(self, arch_id: int, num_classes: int) -> nn.Module:
         config = self.api.get_net_config(arch_id, "cifar10-valid")
-        config["num_classes"] = self.dataset.num_classes
+        config["num_classes"] = num_classes
         network = get_cell_based_tiny_net(config)
         return network
 

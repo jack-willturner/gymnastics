@@ -5,15 +5,15 @@ __all__ = ["get_benchmark"]
 
 def get_benchmark(benchmark_name: str, path_to_api: str):
 
-    if benchmark_name == "NASBench101":
+    if benchmark_name == "NAS-Bench-101":
         from .nasbench101 import NASBench101SearchSpace
 
         return NASBench101SearchSpace(path_to_api=path_to_api)
-    elif benchmark_name == "NASBench201":
+    elif benchmark_name == "NAS-Bench-201":
         from .nasbench201 import NASBench201SearchSpace
 
         return NASBench201SearchSpace(path_to_api=path_to_api)
-    elif benchmark_name == "NATSBench":
+    elif benchmark_name == "NATS-Bench":
         from .natsbench import NATSBenchSearchSpace
 
         return NATSBenchSearchSpace(path_to_api=path_to_api)
@@ -61,3 +61,5 @@ def get_benchmark(benchmark_name: str, path_to_api: str):
         return NDSSearchSpace("Vanilla_lr-wd")
     elif benchmark_name == "NDS_vanilla_lr-wd_in":
         return NDSSearchSpace("Vanilla_lr-wd_in")
+    else:
+        raise NotImplementedException
