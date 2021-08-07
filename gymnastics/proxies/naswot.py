@@ -39,14 +39,18 @@ class NASWOT(Proxy):
                 module.register_forward_hook(counting_forward_hook)
                 module.register_backward_hook(counting_backward_hook)
 
+        # make a clone of the minibatch
+        minibatch2 = torch.clone(minibatch)
+        device = minibatch.get_device()
+        minibatch2 = minibatch2.to(device)
+
         # attach the forward/backward hooks
         model.zero_grad()
         y, _ = model(minibatch)
         y.backward(torch.ones_like(y))
 
         # push the minibatch through
-        _ = model(minibatch)
-
+        model(minibatch2)
         return model.K
 
     def score(self, model: nn.Module, minibatch: torch.Tensor) -> float:
