@@ -8,7 +8,7 @@ class NASWOT(Proxy):
     def get_K(self, model, minibatch):
         batch_size = minibatch.size()[0]
 
-        model.K = np.zeros((batch_size, batch_size))
+        model.K = torch.zeros((batch_size, batch_size))
 
         def counting_forward_hook(module, input, output):
             try:
