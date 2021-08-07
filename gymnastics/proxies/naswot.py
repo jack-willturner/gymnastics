@@ -6,6 +6,7 @@ from gymnastics.proxies.proxy import Proxy
 
 class NASWOT(Proxy):
     def add_hooks(self, model):
+
         def counting_forward_hook(module, input, output):
             try:
                 if not module.visited_backwards:
@@ -14,6 +15,10 @@ class NASWOT(Proxy):
                 # in case it's inputs + targets
                 if isinstance(input, tuple):
                     input = input[0]
+
+                # make sure everything is on the same device
+                device = input.get_device()
+                #model = model.to(device)
 
                 # flatten inputs into vectors
                 input = input.view(input.size(0), -1)
@@ -26,9 +31,12 @@ class NASWOT(Proxy):
 
                 # xs that are 0 and the same
                 K2 = (1.0 - x) @ (1.0 - x.t())
-
-                model.K = model.K + K + K2
-            except Exception:
+                
+                K = K.to(device)
+                K2 = K2.to(device)
+                
+                model.K = model.K + K.cpu() + K2.cpu()
+            except Exception as e:
                 pass
 
         def counting_backward_hook(module, input, output):
@@ -40,15 +48,17 @@ class NASWOT(Proxy):
                 module.register_backward_hook(counting_backward_hook)
 
     def get_K(self, model, minibatch):
+        device = minibatch.get_device()
         batch_size = minibatch.size()[0]
 
         model.K = torch.zeros((batch_size, batch_size))
 
         self.add_hooks(model)
 
+        model = model.to(device)
+        
         # make a clone of the minibatch
         minibatch2 = torch.clone(minibatch)
-        device = minibatch.get_device()
         minibatch2 = minibatch2.to(device)
 
         # attach the forward/backward hooks

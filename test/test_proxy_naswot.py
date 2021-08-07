@@ -1,22 +1,34 @@
+import time
 import torch
 
 from gymnastics.benchmarks import NDSSearchSpace
 from gymnastics.proxies import Proxy, NASWOT
 
 
-def test_proxy_naswot():
-    searchspace = NDSSearchSpace(
-        "/Users/jackturner/work/nds/data/ResNet.json", searchspace="ResNet"
-    )
-    data = torch.rand((1, 3, 32, 32))
-    for _ in range(10):
-        model = searchspace.sample_random_architecture()
-        y, _ = model(data)
-        print(y.size())
+local_search_space_lot = "/Users/jackturner/work/nds/data/ResNet.json"
+search_space_loc = "/disk/scratch_ssd/nasbench201/nds/ResNet.json"
 
+
+def test_proxy_naswot():
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    
+    searchspace = NDSSearchSpace(
+        search_space_loc, searchspace="ResNet"
+    )
+
+    model = searchspace.sample_random_architecture()
+    
     minibatch: torch.Tensor = torch.rand(10, 3, 32, 32)
 
+    minibatch = minibatch.to(device)
+    model = model.to(device)
+
     proxy: Proxy = NASWOT()
+
+    t1 = time.time()
     score = proxy.score(model, minibatch)
+    t2 = time.time()
+
+    assert (t2-t1) < 10.
 
     assert score > 0
