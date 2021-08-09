@@ -27,6 +27,8 @@ class Network(nn.Module):
     def __init__(self, spec, args, searchspace=[]):
         super(Network, self).__init__()
 
+        self.spec = spec
+
         self.layers = nn.ModuleList([])
 
         in_channels = 3
@@ -47,7 +49,7 @@ class Network(nn.Module):
 
                 out_channels *= 2
 
-            for module_num in range(args.num_modules_per_stack):
+            for _ in range(args.num_modules_per_stack):
                 cell = Cell(spec, in_channels, out_channels)
                 self.layers.append(cell)
                 in_channels = out_channels
@@ -103,7 +105,7 @@ class Network(nn.Module):
         return [self.arch_parameters]
 
     def genotype(self):
-        return str(spec)
+        return str(self.spec)
 
 
 class Cell(nn.Module):

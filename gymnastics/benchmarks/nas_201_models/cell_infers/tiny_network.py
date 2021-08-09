@@ -50,14 +50,20 @@ class TinyNetwork(nn.Module):
             name=self.__class__.__name__, **self.__dict__
         )
 
-    def forward(self, inputs):
+    def forward(self, inputs, get_ints=False):
         feature = self.stem(inputs)
+
+        ints = []  # intermediate activations
         for i, cell in enumerate(self.cells):
             feature = cell(feature)
+            ints.append(feature)
 
         out = self.lastact(feature)
         out = self.global_pooling(out)
         out = out.view(out.size(0), -1)
         logits = self.classifier(out)
 
-        return logits, out
+        if get_ints:
+            return logits, ints
+        else:
+            return logits

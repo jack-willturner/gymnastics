@@ -1,12 +1,10 @@
 import torch
-import numpy as np
 import torch.nn as nn
 from gymnastics.proxies.proxy import Proxy
 
 
 class NASWOT(Proxy):
-    def add_hooks(self, model):
-
+    def add_hooks(self, model) -> None:
         def counting_forward_hook(module, input, output):
             try:
                 if not module.visited_backwards:
@@ -16,9 +14,7 @@ class NASWOT(Proxy):
                 if isinstance(input, tuple):
                     input = input[0]
 
-                # make sure everything is on the same device
                 device = input.get_device()
-                #model = model.to(device)
 
                 # flatten inputs into vectors
                 input = input.view(input.size(0), -1)
@@ -26,15 +22,12 @@ class NASWOT(Proxy):
                 # binary indicator for which units are switched on/off
                 x = (input > 0).float()
 
-                # xs that are 1 and the same
-                K = x @ x.t()
+                K = x @ x.t()  # xs that are 1 and the same
+                K2 = (1.0 - x) @ (1.0 - x.t())  # xs that are 0 and the same
 
-                # xs that are 0 and the same
-                K2 = (1.0 - x) @ (1.0 - x.t())
-                
                 K = K.to(device)
                 K2 = K2.to(device)
-                
+
                 model.K = model.K + K.cpu() + K2.cpu()
             except Exception as e:
                 pass
@@ -47,7 +40,7 @@ class NASWOT(Proxy):
                 module.register_forward_hook(counting_forward_hook)
                 module.register_backward_hook(counting_backward_hook)
 
-    def get_K(self, model, minibatch):
+    def get_K(self, model, minibatch) -> torch.Tensor:
         device = minibatch.get_device()
         batch_size = minibatch.size()[0]
 
@@ -56,7 +49,7 @@ class NASWOT(Proxy):
         self.add_hooks(model)
 
         model = model.to(device)
-        
+
         # make a clone of the minibatch
         minibatch2 = torch.clone(minibatch)
         minibatch2 = minibatch2.to(device)
@@ -70,7 +63,9 @@ class NASWOT(Proxy):
         model(minibatch2)
         return model.K
 
-    def score(self, model: nn.Module, minibatch: torch.Tensor) -> float:
+    def score(
+        self, model: nn.Module, minibatch: torch.Tensor, target: torch.Tensor
+    ) -> float:
         K = self.get_K(model, minibatch)
         logdet = torch.logdet(K)
 
