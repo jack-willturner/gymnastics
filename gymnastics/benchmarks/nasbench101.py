@@ -3,6 +3,8 @@ import itertools
 
 import torch.nn as nn
 
+from types import SimpleNamespace
+
 from nasbench import api as API
 from .nas_101_api.model import Network
 from .nas_101_api.model_spec import ModelSpec
@@ -14,7 +16,7 @@ from gymnastics.searchspace.utils import Dataset, CIFAR10
 class NASBench101SearchSpace(SearchSpace):
     def __init__(self, path_to_api: str = None, dataset: Dataset = CIFAR10) -> None:
         self.dataset = dataset
-        self.api = API(path_to_api, verbose=False)
+        self.api = API.NASBench(path_to_api)
 
     def sample_random_architecture(self, single_output=False) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
@@ -24,7 +26,8 @@ class NASBench101SearchSpace(SearchSpace):
         return model
 
     def get_accuracy(self, arch_id: int) -> float:
-        spec = self.get_spec(arch_id)
+        unique_hash = self.convert_arch_id_to_unique_hash(arch_id)
+        spec = self.get_spec(unique_hash)
         _, stats = self.api.get_metrics_from_spec(spec)
         maxacc = 0.0
         for ep in stats:
@@ -37,9 +40,25 @@ class NASBench101SearchSpace(SearchSpace):
     def get_accuracy_of_model(self, model: nn.Module) -> float:
         return self.get_accuracy(model.arch_id)
 
+    def convert_arch_id_to_unique_hash(self, arch_id: int) -> str: 
+        return next(itertools.islice(self.api.hash_iterator(), arch_id, None))
+
     def get_network(self, arch_id: int, num_labels: int = 1) -> nn.Module:
-        spec = self.get_spec(arch_id)
-        network = Network(spec, num_labels=num_labels)
+        # convert arch_id from int to hash
+        unique_hash = self.convert_arch_id_to_unique_hash(arch_id)
+        # fetch spec from API
+        spec = self.get_spec(unique_hash)
+
+        # build an args dict
+        args = {
+            'num_labels': num_labels,
+            'num_stacks':3,
+            'num_modules_per_stack':3,
+            'stem_out_channels':16,
+        } # nasbench wants this in namespace format
+        args = SimpleNamespace(**args)
+
+        network = Network(spec, args=args)
         return network
 
     def get_spec(self, unique_hash):
