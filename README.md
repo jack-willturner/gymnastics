@@ -15,10 +15,6 @@
   </a>
   <!-- Code analysis -->
   <img src="https://img.shields.io/lgtm/grade/python/github/jack-willturner/gymNAStics" alt="Code analysis" height="20">
-  <!-- Getting started colab -->
-  <a href="">
-      <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab" height="20">
-  </a>
 </p>
 
 <p align="center">
@@ -27,20 +23,19 @@
 
 ## Installation 
 
+**Preferred option:** Install from source: 
+```
+git clone git@github.com:jack-willturner/gymnastics.git
+cd gymnastics
+python setup.py install
+```
+
 To install the latest release version:
 ```bash
 pip install gymnastics
 ```
 
-Or to install from source (probably more up-to-date!): 
-```
-git clone git@github.com:jack-willturner/gymnastics.git
-cd gymnastics
-pip install -e . 
-```
-
-If you want to use NAS-Bench-101, follow the instructions [here](https://github.com/google-research/nasbench).
-
+If you want to use NAS-Bench-101, follow the instructions [here](https://github.com/google-research/nasbench) to get it set up.
 
 ## Overview
 
@@ -164,6 +159,10 @@ In addition to the standard NAS operations we include a few more exotic ones, al
 | ViT                 | [pdf](https://arxiv.org/pdf/2010.11929.pdf)   |                                                                     |
 | Fused-MBConv        | [pdf](https://arxiv.org/pdf/2104.00298.pdf)   |                                                                     |
 | Lambda              | [pdf](https://arxiv.org/pdf/2102.08602.pdf)   |                                                                     |
+
+## Repositories that use this framework
+
+- [NASWOT](https://github.com/jack-willturner/naswot)
 
 ## Alternatives
 
