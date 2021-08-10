@@ -1,3 +1,4 @@
+import os
 import json
 import torch
 import random
@@ -40,7 +41,7 @@ class NDSSearchSpace(SearchSpace):
         self.dataset = dataset
         self.searchspace = searchspace
 
-        api = json.load(open(path_to_api, "r"))
+        api = json.load(open(os.path.join(path_to_api, searchspace) + ".json", "r"))
         try:
             api = api["top"] + api["mid"]
         except Exception as e:
@@ -49,16 +50,18 @@ class NDSSearchSpace(SearchSpace):
 
         self.searchspace = searchspace
 
-    def sample_random_architecture(self) -> nn.Module:
+    def sample_random_architecture(self, num_classes: int = None) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
-        model = self.get_network(arch_id)
+        if num_classes is None:
+            num_classes = self.dataset.num_classes
+        model = self.get_network(arch_id, num_classes)
         model.arch_id = arch_id
         return model
 
     def get_accuracy_of_model(self, model) -> float:
         return self.get_final_accuracy(model.arch_id)
 
-    def get_network(self, arch_id: str) -> nn.Module:
+    def get_network(self, arch_id: str, num_classes: int) -> nn.Module:
         netinfo = self.api[arch_id]
         config = netinfo["net"]
         if "genotype" in config:
@@ -71,11 +74,19 @@ class NDSSearchSpace(SearchSpace):
             )
             if "_in" in self.searchspace:
                 network = NetworkImageNet(
-                    config["width"], 1, config["depth"], config["aux"], genotype
+                    config["width"],
+                    num_classes,
+                    config["depth"],
+                    config["aux"],
+                    genotype,
                 )
             else:
                 network = NetworkCIFAR(
-                    config["width"], 1, config["depth"], config["aux"], genotype
+                    config["width"],
+                    num_classes,
+                    config["depth"],
+                    config["aux"],
+                    genotype,
                 )
             network.drop_path_prob = 0.0
 
@@ -86,7 +97,7 @@ class NDSSearchSpace(SearchSpace):
             if "num_gs" in config and "gws" not in config:
                 config["gws"] = config["num_gs"]
                 del config["num_gs"]
-            config["nc"] = 1
+            config["nc"] = num_classes
             config["se_r"] = None
             config["stem_w"] = 12
             if "ResN" in self.searchspace:
@@ -98,7 +109,7 @@ class NDSSearchSpace(SearchSpace):
                 config["block_type"] = "vanilla_block"
             network = AnyNet(**config)
 
-        return_feature_layer(network)
+        # return_feature_layer(network)
         return network
 
     def get_final_accuracy(self, arch_id):

@@ -1,3 +1,5 @@
+from gymnastics import searchspace
+import os
 from .nds import NDSSearchSpace
 
 __all__ = ["get_benchmark"]
@@ -18,23 +20,23 @@ def get_benchmark(benchmark_name: str, path_to_api: str):
 
         return NATSBenchSearchSpace(path_to_api=path_to_api)
     elif benchmark_name == "NDS_resnet":
-        return NDSSearchSpace("ResNet")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ResNet")
     elif benchmark_name == "NDS_amoeba":
-        return NDSSearchSpace("Amoeba")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="Amoeba")
     elif benchmark_name == "NDS_amoeba_in":
-        return NDSSearchSpace("Amoeba_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="Amoeba_in")
     elif benchmark_name == "NDS_darts_in":
-        return NDSSearchSpace("DARTS_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="DARTS_in")
     elif benchmark_name == "NDS_darts":
-        return NDSSearchSpace("DARTS")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="DARTS")
     elif benchmark_name == "NDS_darts_fix-w-d":
-        return NDSSearchSpace("DARTS_fix-w-d")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="/DARTS_fix-w-d")
     elif benchmark_name == "NDS_darts_lr-wd":
-        return NDSSearchSpace("DARTS_lr-wd")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="/DARTS_lr-wd")
     elif benchmark_name == "NDS_enas":
-        return NDSSearchSpace("ENAS")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="/ENAS")
     elif benchmark_name == "NDS_enas_in":
-        return NDSSearchSpace("ENAS_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ENAS_in")
     elif benchmark_name == "NDS_enas_fix-w-d":
         return NDSSearchSpace("ENAS_fix-w-d")
     elif benchmark_name == "NDS_pnas":
@@ -62,4 +64,4 @@ def get_benchmark(benchmark_name: str, path_to_api: str):
     elif benchmark_name == "NDS_vanilla_lr-wd_in":
         return NDSSearchSpace("Vanilla_lr-wd_in")
     else:
-        raise NotImplementedException
+        raise ValueError("Invalid choice of benchmark")

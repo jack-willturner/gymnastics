@@ -18,10 +18,11 @@ class NASBench101SearchSpace(SearchSpace):
         self.dataset = dataset
         self.api = API.NASBench(path_to_api)
 
-    def sample_random_architecture(self, single_output=False) -> nn.Module:
+    def sample_random_architecture(self, num_classes: int = None) -> nn.Module:
         arch_id = random.randint(0, len(self) - 1)
-        num_labels = 1 if single_output else self.dataset.num_classes
-        model = self.get_network(arch_id, num_labels)
+        if num_classes is None:
+            num_classes = self.dataset.num_classes
+        model = self.get_network(arch_id, num_classes)
         model.arch_id = arch_id
         return model
 
@@ -40,7 +41,7 @@ class NASBench101SearchSpace(SearchSpace):
     def get_accuracy_of_model(self, model: nn.Module) -> float:
         return self.get_accuracy(model.arch_id)
 
-    def convert_arch_id_to_unique_hash(self, arch_id: int) -> str: 
+    def convert_arch_id_to_unique_hash(self, arch_id: int) -> str:
         return next(itertools.islice(self.api.hash_iterator(), arch_id, None))
 
     def get_network(self, arch_id: int, num_labels: int = 1) -> nn.Module:
@@ -51,11 +52,11 @@ class NASBench101SearchSpace(SearchSpace):
 
         # build an args dict
         args = {
-            'num_labels': num_labels,
-            'num_stacks':3,
-            'num_modules_per_stack':3,
-            'stem_out_channels':16,
-        } # nasbench wants this in namespace format
+            "num_labels": num_labels,
+            "num_stacks": 3,
+            "num_modules_per_stack": 3,
+            "stem_out_channels": 16,
+        }  # nasbench wants this in namespace format
         args = SimpleNamespace(**args)
 
         network = Network(spec, args=args)

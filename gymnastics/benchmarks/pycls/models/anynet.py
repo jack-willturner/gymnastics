@@ -378,10 +378,20 @@ class AnyNet(nn.Module):
             prev_w = w
         self.head = AnyHead(w_in=prev_w, nc=nc)
 
-    def forward(self, x):
+    def forward(self, x, get_ints=False):
+
+        activations = []
+
         for module in self.children():
             x = module(x)
-        return x
+
+            if isinstance(module, AnyStage):
+                activations.append(x)
+
+        if get_ints:
+            return (x, activations)
+        else:
+            return x
 
     @staticmethod
     def complexity(cx, **kwargs):
