@@ -1,5 +1,3 @@
-from gymnastics import searchspace
-import os
 from .nds import NDSSearchSpace
 
 __all__ = ["get_benchmark"]
@@ -38,30 +36,30 @@ def get_benchmark(benchmark_name: str, path_to_api: str):
     elif benchmark_name == "NDS_enas_in":
         return NDSSearchSpace(path_to_api=path_to_api, searchspace="ENAS_in")
     elif benchmark_name == "NDS_enas_fix-w-d":
-        return NDSSearchSpace("ENAS_fix-w-d")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ENAS_fix-w-d")
     elif benchmark_name == "NDS_pnas":
-        return NDSSearchSpace("PNAS")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="PNAS")
     elif benchmark_name == "NDS_pnas_fix-w-d":
-        return NDSSearchSpace("PNAS_fix-w-d")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="PNAS_fix-w-d")
     elif benchmark_name == "NDS_pnas_in":
-        return NDSSearchSpace("PNAS_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="PNAS_in")
     elif benchmark_name == "NDS_nasnet":
-        return NDSSearchSpace("NASNet")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="NASNet")
     elif benchmark_name == "NDS_nasnet_in":
-        return NDSSearchSpace("NASNet_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="NASNet_in")
     elif benchmark_name == "NDS_resnext-a":
-        return NDSSearchSpace("ResNeXt-A")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ResNeXt-A")
     elif benchmark_name == "NDS_resnext-a_in":
-        return NDSSearchSpace("ResNeXt-A_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ResNeXt-A_in")
     elif benchmark_name == "NDS_resnext-b":
-        return NDSSearchSpace("ResNeXt-B")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ResNeXt-B")
     elif benchmark_name == "NDS_resnext-b_in":
-        return NDSSearchSpace("ResNeXt-B_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="ResNeXt-B_in")
     elif benchmark_name == "NDS_vanilla":
-        return NDSSearchSpace("Vanilla")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="Vanilla")
     elif benchmark_name == "NDS_vanilla_lr-wd":
-        return NDSSearchSpace("Vanilla_lr-wd")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="Vanilla_lr-wd")
     elif benchmark_name == "NDS_vanilla_lr-wd_in":
-        return NDSSearchSpace("Vanilla_lr-wd_in")
+        return NDSSearchSpace(path_to_api=path_to_api, searchspace="Vanilla_lr-wd_in")
     else:
         raise ValueError("Invalid choice of benchmark")
