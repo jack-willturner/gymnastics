@@ -21,7 +21,6 @@ class Fisher(Proxy):
         fishers = []
 
         for activation in activations:
-            print(activation)
             fish = (
                 (activation.data.detach() * activation.grad.detach())
                 .sum(-1)
