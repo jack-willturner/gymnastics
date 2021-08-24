@@ -171,3 +171,4 @@ If you are looking for alternatives to this library, there are a few which I wil
 - [NASlib](https://github.com/automl/NASLib)
 - [AutoDL](https://github.com/D-X-Y/AutoDL-Projects)
 - [AutoPyTorch](https://github.com/automl/Auto-PyTorch)
+- [gradsflow](https://github.com/gradsflow/gradsflow)
